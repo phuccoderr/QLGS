@@ -110,36 +110,36 @@ export default function MemberShipCards() {
   // Define columns for membership card table
   const columns: ColumnDef<MemberShipCardResponse>[] = [
     {
-      accessorKey: "so_the",
+      accessorKey: "card_number",
       header: "Card Number",
     },
     {
-      accessorKey: "id_khachhang",
+      accessorKey: "id_customer",
       header: "Customer ID",
     },
     {
-      accessorKey: "ngay_cap",
+      accessorKey: "issue_date",
       header: "Issue Date",
-      cell: ({ row }) => formatDate(row.getValue("ngay_cap") as string),
+      cell: ({ row }) => formatDate(row.getValue("issue_date") as string),
     },
     {
-      accessorKey: "ngay_het_han",
+      accessorKey: "expiry_date",
       header: "Expiry Date",
-      cell: ({ row }) => formatDate(row.getValue("ngay_het_han") as string),
+      cell: ({ row }) => formatDate(row.getValue("expiry_date") as string),
     },
     {
-      accessorKey: "diem_tich_luy",
+      accessorKey: "points",
       header: "Points",
       cell: ({ row }) => {
-        const points = row.getValue("diem_tich_luy") as number;
+        const points = row.getValue("points") as number;
         return <span className="font-medium">{points.toLocaleString()}</span>;
       },
     },
     {
-      accessorKey: "trangthai",
+      accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue("trangthai") as boolean;
+        const status = row.getValue("status") as boolean;
         return (
           <Badge variant={status ? "default" : "secondary"}>
             {status ? "Active" : "Inactive"}
@@ -199,7 +199,7 @@ export default function MemberShipCards() {
           <DataTable
             columns={columns}
             data={membershipCards || []}
-            searchColumn="so_the"
+            searchColumn="card_number"
             searchPlaceholder="Search by card number..."
           />
           {membershipCards.length === 0 && (

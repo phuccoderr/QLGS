@@ -18,6 +18,7 @@ import {
   Receipt,
   Truck,
   LayoutDashboard,
+  BarChart,
 } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -32,7 +33,7 @@ export function Sidebar({ className }: SidebarProps) {
   const location = useLocation();
 
   const navItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: BarChart, label: "Reports", path: "/dashboard" },
     { icon: Users, label: "Customers", path: "/customers" },
     { icon: Package, label: "Services", path: "/services" },
     { icon: Percent, label: "Promotions", path: "/promotions" },

@@ -29,14 +29,12 @@ export function CreateMembershipCardModal({
   onSuccess,
 }: CreateMembershipCardModalProps) {
   const [formData, setFormData] = useState<CreateMemberShipCardRequestType>({
-    id_khachhang: "",
-    so_the: "",
-    ngay_cap: new Date(),
-    ngay_het_han: new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    ),
-    diem_tich_luy: 0,
-    trangthai: true,
+    id_customer: "",
+    card_number: "",
+    issue_date: new Date(),
+    expiry_date: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+    points: 0,
+    status: true,
   });
 
   const [customers, setCustomers] = useState<CustomerResponse[]>([]);
@@ -71,7 +69,7 @@ export function CreateMembershipCardModal({
     const { name, value } = e.target;
 
     // Card number validation
-    if (name === "so_the") {
+    if (name === "card_number") {
       if (!value) {
         setCardNumberError("Card number is required");
       } else if (!/^[A-Z0-9]{8,}$/.test(value)) {
@@ -84,9 +82,9 @@ export function CreateMembershipCardModal({
     }
 
     // Date validation
-    if (name === "ngay_het_han") {
+    if (name === "expiry_date") {
       const expiryDate = new Date(value);
-      const issueDate = formData.ngay_cap;
+      const issueDate = formData.issue_date;
 
       if (expiryDate <= issueDate) {
         setDateError("Expiry date must be after issue date");
@@ -95,9 +93,9 @@ export function CreateMembershipCardModal({
       }
     }
 
-    if (name === "ngay_cap") {
+    if (name === "issue_date") {
       const issueDate = new Date(value);
-      const expiryDate = formData.ngay_het_han;
+      const expiryDate = formData.expiry_date;
 
       if (expiryDate <= issueDate) {
         setDateError("Expiry date must be after issue date");
@@ -109,11 +107,11 @@ export function CreateMembershipCardModal({
     setFormData((prev) => ({
       ...prev,
       [name]:
-        name === "ngay_cap" || name === "ngay_het_han"
+        name === "issue_date" || name === "expiry_date"
           ? new Date(value)
-          : name === "diem_tich_luy"
+          : name === "points"
           ? parseInt(value, 10)
-          : name === "trangthai"
+          : name === "status"
           ? value === "true"
           : value,
     }));
@@ -125,19 +123,19 @@ export function CreateMembershipCardModal({
     // Validate required fields before submission
     let hasError = false;
 
-    if (!formData.id_khachhang) {
+    if (!formData.id_customer) {
       setError("Please select a customer");
       hasError = true;
     }
 
-    if (!formData.so_the || !/^[A-Z0-9]{8,}$/.test(formData.so_the)) {
+    if (!formData.card_number || !/^[A-Z0-9]{8,}$/.test(formData.card_number)) {
       setCardNumberError(
         "Card number must be at least 8 alphanumeric characters (uppercase)"
       );
       hasError = true;
     }
 
-    if (formData.ngay_het_han <= formData.ngay_cap) {
+    if (formData.expiry_date <= formData.issue_date) {
       setDateError("Expiry date must be after issue date");
       hasError = true;
     }
@@ -156,14 +154,14 @@ export function CreateMembershipCardModal({
       onClose();
       // Reset form
       setFormData({
-        id_khachhang: "",
-        so_the: "",
-        ngay_cap: new Date(),
-        ngay_het_han: new Date(
+        id_customer: "",
+        card_number: "",
+        issue_date: new Date(),
+        expiry_date: new Date(
           new Date().setFullYear(new Date().getFullYear() + 1)
         ),
-        diem_tich_luy: 0,
-        trangthai: true,
+        points: 0,
+        status: true,
       });
       toast.success("Membership card created successfully!");
     } catch (error) {
@@ -186,13 +184,13 @@ export function CreateMembershipCardModal({
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="id_khachhang" className="text-right">
+              <Label htmlFor="id_customer" className="text-right">
                 Customer
               </Label>
               <select
-                id="id_khachhang"
-                name="id_khachhang"
-                value={formData.id_khachhang}
+                id="id_customer"
+                name="id_customer"
+                value={formData.id_customer}
                 onChange={handleChange}
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={customersLoading}
@@ -208,14 +206,14 @@ export function CreateMembershipCardModal({
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="so_the" className="text-right">
+              <Label htmlFor="card_number" className="text-right">
                 Card Number
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
-                  id="so_the"
-                  name="so_the"
-                  value={formData.so_the}
+                  id="card_number"
+                  name="card_number"
+                  value={formData.card_number}
                   onChange={handleChange}
                   className={cardNumberError ? "border-destructive" : ""}
                   placeholder="e.g. CARD12345"
@@ -228,14 +226,14 @@ export function CreateMembershipCardModal({
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="ngay_cap" className="text-right">
+              <Label htmlFor="issue_date" className="text-right">
                 Issue Date
               </Label>
               <Input
-                id="ngay_cap"
-                name="ngay_cap"
+                id="issue_date"
+                name="issue_date"
                 type="date"
-                value={formData.ngay_cap.toISOString().split("T")[0]}
+                value={formData.issue_date.toISOString().split("T")[0]}
                 onChange={handleChange}
                 className="col-span-3"
                 required
@@ -243,15 +241,15 @@ export function CreateMembershipCardModal({
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="ngay_het_han" className="text-right">
+              <Label htmlFor="expiry_date" className="text-right">
                 Expiry Date
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
-                  id="ngay_het_han"
-                  name="ngay_het_han"
+                  id="expiry_date"
+                  name="expiry_date"
                   type="date"
-                  value={formData.ngay_het_han.toISOString().split("T")[0]}
+                  value={formData.expiry_date.toISOString().split("T")[0]}
                   onChange={handleChange}
                   className={dateError ? "border-destructive" : ""}
                   required
@@ -263,15 +261,15 @@ export function CreateMembershipCardModal({
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="diem_tich_luy" className="text-right">
+              <Label htmlFor="points" className="text-right">
                 Points
               </Label>
               <Input
-                id="diem_tich_luy"
-                name="diem_tich_luy"
+                id="points"
+                name="points"
                 type="number"
                 min="0"
-                value={formData.diem_tich_luy}
+                value={formData.points}
                 onChange={handleChange}
                 className="col-span-3"
                 required
@@ -279,13 +277,13 @@ export function CreateMembershipCardModal({
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="trangthai" className="text-right">
+              <Label htmlFor="status" className="text-right">
                 Status
               </Label>
               <select
-                id="trangthai"
-                name="trangthai"
-                value={formData.trangthai.toString()}
+                id="status"
+                name="status"
+                value={formData.status.toString()}
                 onChange={handleChange}
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >

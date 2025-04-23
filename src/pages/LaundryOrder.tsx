@@ -63,6 +63,7 @@ export default function LaundryOrder() {
     setLoading(true);
     try {
       const data = await getAllLaundryOrders();
+      console.log(data);
       setLaundryOrders(data);
       setLoading(false);
     } catch (error) {
@@ -336,7 +337,7 @@ export default function LaundryOrder() {
             searchColumn="id_service"
             searchPlaceholder="Search by service ID..."
           />
-          {laundryOrders.length === 0 && (
+          {laundryOrders?.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
               No laundry orders found
             </div>

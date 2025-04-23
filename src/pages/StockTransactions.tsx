@@ -27,6 +27,8 @@ import { GoodsResponse } from "@/types/goods.type";
 import { SupplierResponse } from "@/types/supplier.type";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
+import { CreateStockTransactionModal } from "@/components/modals/create-stock-transaction-modal";
+import { UpdateStockTransactionModal } from "@/components/modals/update-stock-transaction-modal";
 
 export default function StockTransactions() {
   const [transactions, setTransactions] = useState<StockTransactionResponse[]>(
@@ -55,6 +57,7 @@ export default function StockTransactions() {
     setLoading(true);
     try {
       const data = await getAllStockTransactions();
+      console.log(data);
       setTransactions(data);
       setLoading(false);
     } catch (error) {
@@ -294,26 +297,18 @@ export default function StockTransactions() {
         </div>
       )}
 
-      {/* TODO: Implement CreateStockTransactionModal component */}
-      {/* <CreateStockTransactionModal
+      <CreateStockTransactionModal
         isOpen={isCreateModalOpen}
         onClose={handleCloseCreateModal}
         onSuccess={handleTransactionCreated}
-        stores={stores}
-        goods={goods}
-        suppliers={suppliers}
-      /> */}
+      />
 
-      {/* TODO: Implement UpdateStockTransactionModal component */}
-      {/* <UpdateStockTransactionModal
+      <UpdateStockTransactionModal
         isOpen={isUpdateModalOpen}
         onClose={handleCloseUpdateModal}
         onSuccess={handleTransactionUpdated}
         transactionId={selectedTransactionId || ""}
-        stores={stores}
-        goods={goods}
-        suppliers={suppliers}
-      /> */}
+      />
 
       <AlertDialog
         open={isDeleteDialogOpen}

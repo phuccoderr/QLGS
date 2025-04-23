@@ -22,6 +22,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { CreateInvoiceModal } from "@/components/modals/create-invoice-modal";
+import { ViewInvoiceModal } from "@/components/modals/view-invoice-modal";
 
 export default function Invoice() {
   const [invoices, setInvoices] = useState<InvoiceResponse[]>([]);
@@ -272,12 +273,11 @@ export default function Invoice() {
         </div>
       )}
 
-      {/* TODO: Implement DetailInvoiceModal component */}
-      {/* <DetailInvoiceModal
+      <ViewInvoiceModal
         isOpen={isDetailModalOpen}
         onClose={handleCloseDetailModal}
         invoiceId={selectedInvoiceId || ""}
-      /> */}
+      />
 
       <CreateInvoiceModal
         isOpen={isCreateModalOpen}

@@ -4,14 +4,23 @@ import type {
   UpdatePromotionRequestType,
   PromotionResponse,
 } from "@/types/promotion.type";
+import { ApiPagination } from "@/types/api-pagination.type";
 
 /**
  * Get all promotions
  * @returns List of promotions
  */
 export const getAllPromotions = async (): Promise<PromotionResponse[]> => {
-  const response = await http.get<PromotionResponse[]>("/promotions");
-  return response.data;
+  const response = await http.get<ApiPagination<PromotionResponse>>(
+    "/promotions",
+    {
+      params: {
+        page: 1,
+        limit: 500,
+      },
+    }
+  );
+  return response.data.entities;
 };
 
 /**

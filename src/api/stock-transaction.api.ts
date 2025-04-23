@@ -1,3 +1,4 @@
+import { ApiPagination } from "@/types/api-pagination.type";
 import http from "./http.api";
 import type {
   CreateStockTransactionRequestType,
@@ -12,10 +13,16 @@ import type {
 export const getAllStockTransactions = async (): Promise<
   StockTransactionResponse[]
 > => {
-  const response = await http.get<StockTransactionResponse[]>(
-    "/stock-transactions"
+  const response = await http.get<ApiPagination<StockTransactionResponse>>(
+    "/stock-transactions",
+    {
+      params: {
+        page: 1,
+        limit: 500,
+      },
+    }
   );
-  return response.data;
+  return response.data.entities;
 };
 
 /**

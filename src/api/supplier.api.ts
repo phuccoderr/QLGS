@@ -1,3 +1,4 @@
+import { ApiPagination } from "@/types/api-pagination.type";
 import http from "./http.api";
 import type {
   CreateSupplierRequestType,
@@ -10,8 +11,16 @@ import type {
  * @returns List of suppliers
  */
 export const getAllSuppliers = async (): Promise<SupplierResponse[]> => {
-  const response = await http.get<SupplierResponse[]>("/suppliers");
-  return response.data;
+  const response = await http.get<ApiPagination<SupplierResponse>>(
+    "/suppliers",
+    {
+      params: {
+        page: 1,
+        limit: 500,
+      },
+    }
+  );
+  return response.data.entities;
 };
 
 /**
@@ -23,20 +32,6 @@ export const getSupplierById = async (
   id: string
 ): Promise<SupplierResponse> => {
   const response = await http.get<SupplierResponse>(`/suppliers/${id}`);
-  return response.data;
-};
-
-/**
- * Get suppliers by store ID
- * @param storeId Store ID to fetch suppliers for
- * @returns List of suppliers
- */
-export const getSuppliersByStoreId = async (
-  storeId: string
-): Promise<SupplierResponse[]> => {
-  const response = await http.get<SupplierResponse[]>(
-    `/suppliers/store/${storeId}`
-  );
   return response.data;
 };
 

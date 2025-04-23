@@ -1,3 +1,4 @@
+import { ApiPagination } from "@/types/api-pagination.type";
 import http from "./http.api";
 import type {
   CreateDeliveryRequestType,
@@ -10,8 +11,16 @@ import type {
  * @returns List of deliveries
  */
 export const getAllDeliveries = async (): Promise<DeliveryResponse[]> => {
-  const response = await http.get<DeliveryResponse[]>("/deliverys");
-  return response.data;
+  const response = await http.get<ApiPagination<DeliveryResponse>>(
+    "/deliverys",
+    {
+      params: {
+        page: 1,
+        limit: 500,
+      },
+    }
+  );
+  return response.data.entities;
 };
 
 /**

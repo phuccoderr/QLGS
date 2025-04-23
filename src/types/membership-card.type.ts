@@ -1,19 +1,19 @@
 export interface CreateMemberShipCardRequestType {
-  id_khachhang: string;
-  so_the: string;
-  ngay_cap: Date;
-  ngay_het_han: Date;
-  diem_tich_luy: number;
-  trangthai: boolean;
+  id_customer: string;
+  card_number: string;
+  issue_date: Date;
+  expiry_date: Date;
+  points: number;
+  status: boolean;
 }
 
 export interface UpdateMemberShipCardRequestType {
-  id_khachhang?: string;
-  so_the?: string;
-  ngay_cap?: Date;
-  ngay_het_han?: Date;
-  diem_tich_luy?: number;
-  trangthai?: boolean;
+  id_customer?: string;
+  card_number?: string;
+  issue_date?: Date;
+  expiry_date?: Date;
+  points?: number;
+  status?: boolean;
 }
 
 export interface MemberShipCardResponse {

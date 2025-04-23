@@ -100,11 +100,8 @@ export function CreateInvoiceModal({
   const fetchLaundryOrders = async () => {
     try {
       const data = await getAllLaundryOrders();
-      // Filter only orders with status "Completed" that don't have invoices yet
-      const filteredOrders = data.filter(
-        (order) => order.status === "Completed"
-      );
-      setLaundryOrders(filteredOrders);
+
+      setLaundryOrders(data);
     } catch (error) {
       console.error("Error fetching laundry orders:", error);
       setError("Failed to load laundry orders. Please try again.");
@@ -259,7 +256,8 @@ export function CreateInvoiceModal({
                 <option value="">Select a laundry order</option>
                 {laundryOrders.map((order) => (
                   <option key={order._id} value={order._id}>
-                    #{order._id.slice(-6)} - {formatCurrency(order.totalAmount)}
+                    id customer - {order.id_customer} -{" "}
+                    {formatCurrency(order.totalAmount)}
                   </option>
                 ))}
               </select>

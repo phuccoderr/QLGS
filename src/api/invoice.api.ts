@@ -1,3 +1,4 @@
+import { ApiPagination } from "@/types/api-pagination.type";
 import http from "./http.api";
 import type {
   CreateInvoiceRequestType,
@@ -10,8 +11,13 @@ import type {
  * @returns List of invoices
  */
 export const getAllInvoices = async (): Promise<InvoiceResponse[]> => {
-  const response = await http.get<InvoiceResponse[]>("/invoices");
-  return response.data;
+  const response = await http.get<ApiPagination<InvoiceResponse>>("/invoices", {
+    params: {
+      page: 1,
+      limit: 500,
+    },
+  });
+  return response.data.entities;
 };
 
 /**

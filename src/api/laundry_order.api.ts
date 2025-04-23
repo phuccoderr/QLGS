@@ -1,3 +1,4 @@
+import { ApiPagination } from "@/types/api-pagination.type";
 import http from "./http.api";
 import type {
   CreateLaundryOrderRequestType,
@@ -12,10 +13,16 @@ import type {
 export const getAllLaundryOrders = async (): Promise<
   LaundryOrderResponse[]
 > => {
-  const response = await http.get<LaundryOrderResponse[]>(
-    "/laundry_orders/names"
+  const response = await http.get<ApiPagination<LaundryOrderResponse>>(
+    "/laundry_orders",
+    {
+      params: {
+        page: 1,
+        limit: 500,
+      },
+    }
   );
-  return response.data;
+  return response.data.entities;
 };
 
 /**

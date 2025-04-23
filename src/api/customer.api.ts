@@ -48,7 +48,7 @@ export const updateCustomer = async (
   id: string,
   data: UpdateCustomerRequestType
 ): Promise<CustomerResponse> => {
-  const response = await http.put<CustomerResponse>(`/customers/${id}`, data);
+  const response = await http.patch<CustomerResponse>(`/customers/${id}`, data);
   return response.data;
 };
 

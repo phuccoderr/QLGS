@@ -204,13 +204,6 @@ export default function Delivery() {
       },
     },
     {
-      accessorKey: "phone_number",
-      header: "Phone Number",
-      cell: ({ row }) => {
-        return row.getValue("phone_number") as string;
-      },
-    },
-    {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
@@ -232,26 +225,6 @@ export default function Delivery() {
       cell: ({ row }) => {
         const date = row.getValue("createdAt") as Date;
         return format(new Date(date), "dd/MM/yyyy");
-      },
-    },
-    {
-      id: "actions",
-      header: "Actions",
-      cell: ({ row }) => {
-        const delivery = row.original;
-        return (
-          <div className="flex justify-center">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={() => handleViewDeliveryDetails(delivery._id)}
-              title="View Details"
-            >
-              <Eye className="h-4 w-4" />
-            </Button>
-          </div>
-        );
       },
     },
   ];
@@ -294,13 +267,6 @@ export default function Delivery() {
         stores={stores}
         staff={staff}
       />
-
-      {/* TODO: Implement DetailDeliveryModal component */}
-      {/* <DetailDeliveryModal
-        isOpen={isDetailModalOpen}
-        onClose={handleCloseDetailModal}
-        deliveryId={selectedDeliveryId || ""}
-      /> */}
 
       <AlertDialog
         open={isDeleteDialogOpen}

@@ -13,6 +13,7 @@ import StockTransactions from "@/pages/StockTransactions";
 import LaundryOrder from "@/pages/LaundryOrder";
 import Invoice from "@/pages/Invoice";
 import Delivery from "@/pages/Delivery";
+import Reports from "@/pages/Reports";
 import Login from "@/pages/Login";
 import { PrivateRoute } from "@/components/auth/PrivateRoute";
 
@@ -35,7 +36,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <Customers />,
+        element: <Reports />,
+      },
+      {
+        path: "/reports",
+        element: <Reports />,
       },
       {
         path: "/customers",
