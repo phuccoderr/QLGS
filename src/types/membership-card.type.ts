@@ -18,12 +18,12 @@ export interface UpdateMemberShipCardRequestType {
 
 export interface MemberShipCardResponse {
   _id: string;
-  id_khachhang: string;
-  so_the: string;
-  ngay_cap: string;
-  ngay_het_han: string;
-  diem_tich_luy: number;
-  trangthai: boolean;
+  id_customer: string;
+  card_number: string;
+  issue_date: string;
+  expiry_date: string;
+  points: number;
+  status: boolean;
   createdAt: string;
   updatedAt: string;
 }

@@ -52,7 +52,7 @@ export function CreateStaffModal({
   const [storesLoading, setStoresLoading] = useState(false);
 
   // Available role options
-  const roleOptions = ["STAFF", "MANAGER"];
+  const roleOptions = ["STAFF", "ADMIN", "CUSTOMER"];
 
   // Fetch stores when modal opens
   useEffect(() => {

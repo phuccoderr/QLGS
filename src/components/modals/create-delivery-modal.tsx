@@ -160,11 +160,6 @@ export function CreateDeliveryModal({
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  // Filter out only completed laundry orders
-  const completedLaundryOrders = laundryOrders.filter(
-    (order) => order.status === "Completed"
-  );
-
   // Filter only delivery staff (could be based on role or other criteria)
   const deliveryStaff = staff.filter((s) => s.status === true);
 
@@ -192,9 +187,9 @@ export function CreateDeliveryModal({
                 required
               >
                 <option value="">Select a laundry order</option>
-                {completedLaundryOrders.map((order) => (
+                {laundryOrders.map((order) => (
                   <option key={order._id} value={order._id}>
-                    #{order._id.slice(-6)}
+                    #{order._id}
                   </option>
                 ))}
               </select>

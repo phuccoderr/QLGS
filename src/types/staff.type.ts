@@ -23,7 +23,7 @@ export interface StaffResponse {
   name: string;
   phoneNumber: string;
   email: string;
-  role: "MANAGER" | "STAFF";
+  role: "ADMIN" | "STAFF" | "CUSTOMER";
   status: boolean;
   createdAt: string;
   updatedAt: string;
