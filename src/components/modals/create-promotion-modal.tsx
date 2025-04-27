@@ -51,9 +51,9 @@ export function CreatePromotionModal({
     if (name === "value") {
       const valueNum = parseFloat(value);
       if (isNaN(valueNum) || valueNum <= 0) {
-        setValueError("Value must be a positive number");
+        setValueError("Giá trị phải là số dương");
       } else if (formData.type === "Percentage" && valueNum > 100) {
-        setValueError("Percentage cannot be greater than 100%");
+        setValueError("Phần trăm không thể lớn hơn 100%");
       } else {
         setValueError("");
       }
@@ -64,7 +64,7 @@ export function CreatePromotionModal({
     } else if (name === "type") {
       // Reset value error when type changes
       if (value === "Percentage" && formData.value > 100) {
-        setValueError("Percentage cannot be greater than 100%");
+        setValueError("Phần trăm không thể lớn hơn 100%");
       } else {
         setValueError("");
       }
@@ -86,13 +86,13 @@ export function CreatePromotionModal({
       // Validate dates
       if (name === "endDate" && formData.startDate && value) {
         if (new Date(value) <= new Date(formData.startDate)) {
-          setDateError("End date must be after start date");
+          setDateError("Ngày kết thúc phải sau ngày bắt đầu");
         } else {
           setDateError("");
         }
       } else if (name === "startDate" && formData.endDate && value) {
         if (new Date(formData.endDate) <= new Date(value)) {
-          setDateError("End date must be after start date");
+          setDateError("Ngày kết thúc phải sau ngày bắt đầu");
         } else {
           setDateError("");
         }
@@ -114,7 +114,7 @@ export function CreatePromotionModal({
 
     // Check if end date is provided
     if (!formData.endDate) {
-      setDateError("End date is required");
+      setDateError("Ngày kết thúc là bắt buộc");
       return;
     }
 
@@ -123,7 +123,7 @@ export function CreatePromotionModal({
 
     try {
       await createPromotion(formData);
-      toast.success("Promotion created successfully!");
+      toast.success("Khuyến mãi đã được tạo thành công!");
       setLoading(false);
       onSuccess();
       onClose();
@@ -139,8 +139,8 @@ export function CreatePromotionModal({
       });
     } catch (error) {
       console.error("Error creating promotion:", error);
-      setError("Failed to create promotion. Please try again.");
-      toast.error("Failed to create promotion");
+      setError("Không thể tạo khuyến mãi. Vui lòng thử lại.");
+      toast.error("Tạo khuyến mãi thất bại");
       setLoading(false);
     }
   };
@@ -150,16 +150,15 @@ export function CreatePromotionModal({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Promotion</DialogTitle>
+            <DialogTitle>Thêm Khuyến Mãi Mới</DialogTitle>
             <DialogDescription>
-              Enter the details for the new promotion. Click save when you're
-              done.
+              Nhập thông tin cho khuyến mãi mới. Nhấn lưu khi hoàn tất.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Name
+                Tên
               </Label>
               <Input
                 id="name"
@@ -173,7 +172,7 @@ export function CreatePromotionModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="description" className="text-right">
-                Description
+                Mô Tả
               </Label>
               <Textarea
                 id="description"
@@ -188,7 +187,7 @@ export function CreatePromotionModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="type" className="text-right">
-                Type
+                Loại
               </Label>
               <select
                 id="type"
@@ -198,14 +197,14 @@ export function CreatePromotionModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 required
               >
-                <option value="Percentage">Percentage</option>
-                <option value="Cash">Cash</option>
+                <option value="Percentage">Phần Trăm</option>
+                <option value="Cash">Tiền Mặt</option>
               </select>
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="value" className="text-right">
-                Value
+                Giá Trị
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -228,7 +227,7 @@ export function CreatePromotionModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="startDate" className="text-right">
-                Start Date
+                Ngày Bắt Đầu
               </Label>
               <Input
                 id="startDate"
@@ -243,7 +242,7 @@ export function CreatePromotionModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="endDate" className="text-right">
-                End Date
+                Ngày Kết Thúc
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -263,7 +262,7 @@ export function CreatePromotionModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="status" className="text-right">
-                Status
+                Trạng Thái
               </Label>
               <select
                 id="status"
@@ -272,8 +271,8 @@ export function CreatePromotionModal({
                 onChange={handleChange}
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
+                <option value="true">Hoạt Động</option>
+                <option value="false">Không Hoạt Động</option>
               </select>
             </div>
           </div>
@@ -282,13 +281,13 @@ export function CreatePromotionModal({
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Hủy
             </Button>
             <Button
               type="submit"
               disabled={loading || !!valueError || !!dateError}
             >
-              {loading ? "Saving..." : "Save promotion"}
+              {loading ? "Đang Lưu..." : "Lưu Khuyến Mãi"}
             </Button>
           </DialogFooter>
         </form>

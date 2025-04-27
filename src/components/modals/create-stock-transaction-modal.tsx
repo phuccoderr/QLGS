@@ -65,7 +65,7 @@ export function CreateStockTransactionModal({
       setSuppliers(suppliersData);
     } catch (error) {
       console.error("Error fetching reference data:", error);
-      setError("Failed to load reference data. Please try again.");
+      setError("Không thể tải dữ liệu tham chiếu. Vui lòng thử lại.");
     }
     setDataLoading(false);
   };
@@ -93,19 +93,19 @@ export function CreateStockTransactionModal({
     let hasError = false;
 
     if (!formData.id_goods) {
-      setError("Please select a goods item");
+      setError("Vui lòng chọn hàng hóa");
       hasError = true;
     } else if (!formData.id_store) {
-      setError("Please select a store");
+      setError("Vui lòng chọn cửa hàng");
       hasError = true;
     } else if (formData.type === "Nhap" && !formData.id_supplier) {
-      setError("Please select a supplier for incoming transactions");
+      setError("Vui lòng chọn nhà cung cấp cho giao dịch nhập kho");
       hasError = true;
     } else if (formData.quantity <= 0) {
-      setError("Quantity must be greater than 0");
+      setError("Số lượng phải lớn hơn 0");
       hasError = true;
     } else if (formData.price < 0) {
-      setError("Price cannot be negative");
+      setError("Giá không thể âm");
       hasError = true;
     }
 
@@ -139,10 +139,10 @@ export function CreateStockTransactionModal({
         price: 0,
         date: new Date(),
       });
-      toast.success("Stock transaction created successfully!");
+      toast.success("Giao dịch kho đã được tạo thành công!");
     } catch (error) {
       console.error("Error creating stock transaction:", error);
-      setError("Failed to create stock transaction. Please try again.");
+      setError("Không thể tạo giao dịch kho. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -152,16 +152,15 @@ export function CreateStockTransactionModal({
       <DialogContent className="sm:max-w-[500px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Stock Transaction</DialogTitle>
+            <DialogTitle>Thêm Giao Dịch Kho Mới</DialogTitle>
             <DialogDescription>
-              Enter the details for the new stock transaction. Click save when
-              you're done.
+              Nhập thông tin cho giao dịch kho mới. Nhấn lưu khi hoàn tất.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="type" className="text-right">
-                Transaction Type
+                Loại Giao Dịch
               </Label>
               <select
                 id="type"
@@ -171,14 +170,14 @@ export function CreateStockTransactionModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 required
               >
-                <option value="Nhap">Incoming (Nhap)</option>
-                <option value="Xuat">Outgoing (Xuat)</option>
+                <option value="Nhap">Nhập Kho</option>
+                <option value="Xuat">Xuất Kho</option>
               </select>
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_goods" className="text-right">
-                Goods
+                Hàng Hóa
               </Label>
               <select
                 id="id_goods"
@@ -189,7 +188,7 @@ export function CreateStockTransactionModal({
                 disabled={dataLoading}
                 required
               >
-                <option value="">Select Goods</option>
+                <option value="">Chọn Hàng Hóa</option>
                 {goods.map((item) => (
                   <option key={item._id} value={item._id}>
                     {item.name}
@@ -200,7 +199,7 @@ export function CreateStockTransactionModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_store" className="text-right">
-                Store
+                Cửa Hàng
               </Label>
               <select
                 id="id_store"
@@ -211,7 +210,7 @@ export function CreateStockTransactionModal({
                 disabled={dataLoading}
                 required
               >
-                <option value="">Select Store</option>
+                <option value="">Chọn Cửa Hàng</option>
                 {stores.map((store) => (
                   <option key={store._id} value={store._id}>
                     {store.name}
@@ -223,7 +222,7 @@ export function CreateStockTransactionModal({
             {(formData.type === "Nhap" || formData.id_supplier) && (
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="id_supplier" className="text-right">
-                  Supplier
+                  Nhà Cung Cấp
                 </Label>
                 <select
                   id="id_supplier"
@@ -234,7 +233,7 @@ export function CreateStockTransactionModal({
                   disabled={dataLoading}
                   required={formData.type === "Nhap"}
                 >
-                  <option value="">Select Supplier</option>
+                  <option value="">Chọn Nhà Cung Cấp</option>
                   {suppliers.map((supplier) => (
                     <option key={supplier._id} value={supplier._id}>
                       {supplier.name}
@@ -246,7 +245,7 @@ export function CreateStockTransactionModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="quantity" className="text-right">
-                Quantity
+                Số Lượng
               </Label>
               <Input
                 id="quantity"
@@ -262,7 +261,7 @@ export function CreateStockTransactionModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="price" className="text-right">
-                Price
+                Giá
               </Label>
               <Input
                 id="price"
@@ -279,7 +278,7 @@ export function CreateStockTransactionModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="date" className="text-right">
-                Transaction Date
+                Ngày Giao Dịch
               </Label>
               <Input
                 id="date"
@@ -297,10 +296,10 @@ export function CreateStockTransactionModal({
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Hủy
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? "Creating..." : "Create Transaction"}
+              {loading ? "Đang Tạo..." : "Tạo Giao Dịch"}
             </Button>
           </DialogFooter>
         </form>

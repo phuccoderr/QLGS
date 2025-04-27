@@ -27,18 +27,18 @@ export default function Login() {
 
     // Validate form
     if (!email.trim()) {
-      setError("Email is required");
+      setError("Email là bắt buộc");
       return;
     }
 
     if (!password.trim()) {
-      setError("Password is required");
+      setError("Mật khẩu là bắt buộc");
       return;
     }
 
     // Simple email validation
     if (!isValidEmail(email)) {
-      setError("Please enter a valid email address");
+      setError("Vui lòng nhập địa chỉ email hợp lệ");
       return;
     }
 
@@ -51,22 +51,22 @@ export default function Login() {
       // Store token in localStorage
       localStorage.setItem("token", response.token);
 
-      toast.success("Login successful!");
+      toast.success("Đăng nhập thành công!");
 
       // Redirect to the page the user was trying to access before being redirected to login
       // or to the home page if there's no saved location
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
     } catch (error: any) {
-      console.error("Login error:", error);
+      console.error("Lỗi đăng nhập:", error);
 
       // Display error message
       if (error.response?.status === 401) {
-        setError("Invalid email or password");
+        setError("Email hoặc mật khẩu không đúng");
       } else if (error.response?.data?.message) {
         setError(error.response.data.message);
       } else {
-        setError("Failed to login. Please try again.");
+        setError("Đăng nhập thất bại. Vui lòng thử lại.");
       }
 
       setLoading(false);
@@ -81,9 +81,9 @@ export default function Login() {
     <div className="flex items-center justify-center min-h-screen bg-background">
       <div className="w-full max-w-md p-8 space-y-8 bg-card rounded-lg shadow-lg">
         <div className="text-center">
-          <h1 className="text-2xl font-bold">Admin Login</h1>
+          <h1 className="text-2xl font-bold">Đăng Nhập Admin</h1>
           <p className="text-muted-foreground mt-2">
-            Enter your credentials to access the admin panel
+            Nhập thông tin đăng nhập để truy cập trang quản trị
           </p>
         </div>
 
@@ -93,7 +93,7 @@ export default function Login() {
             <Input
               id="email"
               type="email"
-              placeholder="Enter your email"
+              placeholder="Nhập email của bạn"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={
@@ -106,11 +106,11 @@ export default function Login() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Mật khẩu</Label>
             <Input
               id="password"
               type="password"
-              placeholder="Enter your password"
+              placeholder="Nhập mật khẩu của bạn"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={
@@ -129,7 +129,7 @@ export default function Login() {
           )}
 
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Signing in..." : "Sign in"}
+            {loading ? "Đang đăng nhập..." : "Đăng nhập"}
           </Button>
         </form>
       </div>

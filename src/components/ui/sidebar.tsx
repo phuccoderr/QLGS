@@ -33,24 +33,24 @@ export function Sidebar({ className }: SidebarProps) {
   const location = useLocation();
 
   const navItems = [
-    { icon: BarChart, label: "Reports", path: "/dashboard" },
-    { icon: Users, label: "Customers", path: "/customers" },
-    { icon: Package, label: "Services", path: "/services" },
-    { icon: Percent, label: "Promotions", path: "/promotions" },
-    { icon: CreditCard, label: "Membership Cards", path: "/membership-cards" },
-    { icon: ShoppingBasket, label: "Goods", path: "/goods" },
-    { icon: Warehouse, label: "Warehouse", path: "/warehouse" },
-    { icon: TruckIcon, label: "Supplier", path: "/supplier" },
+    { icon: BarChart, label: "Thống kê", path: "/dashboard" },
+    { icon: Users, label: "Khách hàng", path: "/customers" },
+    { icon: Package, label: "Dịch vụ", path: "/services" },
+    { icon: Percent, label: "Khuyến mãi", path: "/promotions" },
+    { icon: CreditCard, label: "Thẻ thành viên", path: "/membership-cards" },
+    { icon: ShoppingBasket, label: "Hàng hoá", path: "/goods" },
+    { icon: Warehouse, label: "Nhà kho", path: "/warehouse" },
+    { icon: TruckIcon, label: "Nhà cung cấp", path: "/supplier" },
     {
       icon: ClipboardList,
-      label: "Stock Transactions",
+      label: "Giao dịch chứng khoán",
       path: "/stock-transactions",
     },
-    { icon: Shirt, label: "Laundry Orders", path: "/laundry-orders" },
-    { icon: Receipt, label: "Invoices", path: "/invoices" },
-    { icon: Truck, label: "Deliveries", path: "/deliveries" },
-    { icon: UserCog, label: "Store", path: "/store" },
-    { icon: UserCircle, label: "Staff", path: "/staff" },
+    { icon: Shirt, label: "Đơn hàng giặt", path: "/laundry-orders" },
+    { icon: Receipt, label: "Hoá đơn", path: "/invoices" },
+    { icon: Truck, label: "Giao hàng", path: "/deliveries" },
+    { icon: UserCog, label: "Cửa hàng", path: "/store" },
+    { icon: UserCircle, label: "Nhân viên", path: "/staff" },
   ];
 
   // Desktop sidebar
@@ -63,7 +63,9 @@ export function Sidebar({ className }: SidebarProps) {
       )}
     >
       <div className="p-4 border-b flex justify-between items-center">
-        {!collapsed && <h2 className="font-semibold text-lg">My App</h2>}
+        {!collapsed && (
+          <h2 className="font-semibold text-lg">Ứng Dụng Của Tôi</h2>
+        )}
         <Button
           variant="ghost"
           size="icon"
@@ -87,7 +89,7 @@ export function Sidebar({ className }: SidebarProps) {
       </SheetTrigger>
       <SheetContent side="left" className="p-0 w-[240px]">
         <div className="p-4 border-b flex justify-between items-center">
-          <h2 className="font-semibold text-lg">My App</h2>
+          <h2 className="font-semibold text-lg">Ứng Dụng Của Tôi</h2>
           <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
             <XIcon size={18} />
           </Button>
@@ -133,7 +135,9 @@ export function Sidebar({ className }: SidebarProps) {
         </nav>
         <div className="mt-auto p-4 border-t">
           {!collapsed && (
-            <div className="text-xs text-muted-foreground">© 2024 My App</div>
+            <div className="text-xs text-muted-foreground">
+              © 2024 Ứng Dụng Của Tôi
+            </div>
           )}
         </div>
       </>

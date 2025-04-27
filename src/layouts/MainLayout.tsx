@@ -21,7 +21,7 @@ export default function MainLayout() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="border-b md:block hidden">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 className="text-lg font-medium">Dashboard</h1>
+            <h1 className="text-lg font-medium">DH21KPM02</h1>
             <Button
               variant="outline"
               size="sm"
@@ -29,7 +29,7 @@ export default function MainLayout() {
               className="flex items-center gap-2"
             >
               <LogOut size={16} />
-              <span>Logout</span>
+              <span>Đăng xuất</span>
             </Button>
           </div>
         </header>

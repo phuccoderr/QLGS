@@ -61,8 +61,8 @@ export default function StockTransactions() {
       setTransactions(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching stock transactions:", error);
-      toast.error("Failed to load stock transactions");
+      console.error("Lỗi khi tải dữ liệu giao dịch kho:", error);
+      toast.error("Không thể tải dữ liệu giao dịch kho");
       setLoading(false);
     }
   };
@@ -72,7 +72,7 @@ export default function StockTransactions() {
       const data = await getAllStore();
       setStores(data);
     } catch (error) {
-      console.error("Error fetching stores:", error);
+      console.error("Lỗi khi tải dữ liệu cửa hàng:", error);
     }
   };
 
@@ -81,7 +81,7 @@ export default function StockTransactions() {
       const data = await getAllGoods();
       setGoods(data);
     } catch (error) {
-      console.error("Error fetching goods:", error);
+      console.error("Lỗi khi tải dữ liệu hàng hóa:", error);
     }
   };
 
@@ -90,7 +90,7 @@ export default function StockTransactions() {
       const data = await getAllSuppliers();
       setSuppliers(data);
     } catch (error) {
-      console.error("Error fetching suppliers:", error);
+      console.error("Lỗi khi tải dữ liệu nhà cung cấp:", error);
     }
   };
 
@@ -117,10 +117,10 @@ export default function StockTransactions() {
       fetchTransactions();
       setIsDeleteDialogOpen(false);
       setSelectedTransactionId(null);
-      toast.success("Stock transaction deleted successfully");
+      toast.success("Đã xóa giao dịch kho thành công");
     } catch (error) {
-      console.error("Error deleting stock transaction:", error);
-      toast.error("Failed to delete stock transaction");
+      console.error("Lỗi khi xóa giao dịch kho:", error);
+      toast.error("Không thể xóa giao dịch kho");
     }
     setDeleteLoading(false);
   };
@@ -145,18 +145,18 @@ export default function StockTransactions() {
   // Helper functions to get names by IDs
   const getStoreName = (storeId: string) => {
     const store = stores.find((s) => s._id === storeId);
-    return store ? store.name : "Unknown Store";
+    return store ? store.name : "Cửa hàng không xác định";
   };
 
   const getGoodsName = (goodsId: string) => {
     const item = goods.find((g) => g._id === goodsId);
-    return item ? item.name : "Unknown Item";
+    return item ? item.name : "Hàng hóa không xác định";
   };
 
   const getSupplierName = (supplierId: string) => {
     if (!supplierId) return "N/A";
     const supplier = suppliers.find((s) => s._id === supplierId);
-    return supplier ? supplier.name : "Unknown Supplier";
+    return supplier ? supplier.name : "Nhà cung cấp không xác định";
   };
 
   // Format price as currency
@@ -172,7 +172,7 @@ export default function StockTransactions() {
     try {
       return format(new Date(date), "dd/MM/yyyy");
     } catch (error) {
-      return "Invalid Date";
+      return "Ngày không hợp lệ";
     }
   };
 
@@ -180,7 +180,7 @@ export default function StockTransactions() {
   const columns: ColumnDef<StockTransactionResponse>[] = [
     {
       accessorKey: "id_goods",
-      header: "Goods",
+      header: "Hàng Hóa",
       cell: ({ row }) => {
         const goodsId = row.getValue("id_goods") as string;
         return getGoodsName(goodsId);
@@ -188,7 +188,7 @@ export default function StockTransactions() {
     },
     {
       accessorKey: "id_store",
-      header: "Store",
+      header: "Cửa Hàng",
       cell: ({ row }) => {
         const storeId = row.getValue("id_store") as string;
         return getStoreName(storeId);
@@ -196,7 +196,7 @@ export default function StockTransactions() {
     },
     {
       accessorKey: "id_supplier",
-      header: "Supplier",
+      header: "Nhà Cung Cấp",
       cell: ({ row }) => {
         const supplierId = row.getValue("id_supplier") as string;
         return getSupplierName(supplierId);
@@ -204,23 +204,23 @@ export default function StockTransactions() {
     },
     {
       accessorKey: "type",
-      header: "Type",
+      header: "Loại",
       cell: ({ row }) => {
         const type = row.getValue("type") as "Nhap" | "Xuat";
         return (
           <Badge variant={type === "Nhap" ? "default" : "destructive"}>
-            {type === "Nhap" ? "Import" : "Export"}
+            {type === "Nhap" ? "Nhập" : "Xuất"}
           </Badge>
         );
       },
     },
     {
       accessorKey: "quantity",
-      header: "Quantity",
+      header: "Số Lượng",
     },
     {
       accessorKey: "price",
-      header: "Price",
+      header: "Giá",
       cell: ({ row }) => {
         const price = row.getValue("price") as number;
         return formatCurrency(price);
@@ -228,7 +228,7 @@ export default function StockTransactions() {
     },
     {
       accessorKey: "date",
-      header: "Date",
+      header: "Ngày",
       cell: ({ row }) => {
         const date = row.getValue("date") as Date;
         return formatDate(date);
@@ -236,7 +236,7 @@ export default function StockTransactions() {
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao Tác",
       cell: ({ row }) => {
         const transaction = row.original;
 
@@ -247,6 +247,7 @@ export default function StockTransactions() {
               size="icon"
               className="h-8 w-8"
               onClick={() => handleEditTransaction(transaction._id)}
+              title="Chỉnh sửa"
             >
               <Edit className="h-4 w-4" />
             </Button>
@@ -255,6 +256,7 @@ export default function StockTransactions() {
               size="icon"
               className="h-8 w-8 text-destructive"
               onClick={() => handleDeleteTransaction(transaction._id)}
+              title="Xóa"
             >
               <Trash className="h-4 w-4" />
             </Button>
@@ -267,19 +269,19 @@ export default function StockTransactions() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Stock Transactions</h1>
+        <h1 className="text-2xl font-bold">Giao Dịch Kho</h1>
         <Button
           onClick={handleAddTransaction}
           className="flex items-center gap-1"
         >
           <PlusCircle size={16} />
-          <span>Add Transaction</span>
+          <span>Thêm Giao Dịch</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading stock transactions...</p>
+          <p>Đang tải dữ liệu giao dịch kho...</p>
         </div>
       ) : (
         <div>
@@ -287,11 +289,11 @@ export default function StockTransactions() {
             columns={columns}
             data={transactions || []}
             searchColumn="id_goods"
-            searchPlaceholder="Search by goods ID..."
+            searchPlaceholder="Tìm kiếm theo mã hàng hóa..."
           />
           {transactions.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No stock transactions found
+              Không tìm thấy giao dịch kho
             </div>
           )}
         </div>
@@ -316,10 +318,10 @@ export default function StockTransactions() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              stock transaction record.
+              Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn bản
+              ghi giao dịch kho.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -329,14 +331,14 @@ export default function StockTransactions() {
                 setSelectedTransactionId(null);
               }}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

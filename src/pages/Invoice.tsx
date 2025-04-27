@@ -52,8 +52,8 @@ export default function Invoice() {
       setInvoices(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching invoices:", error);
-      toast.error("Failed to load invoices");
+      console.error("Lỗi khi tải dữ liệu hóa đơn:", error);
+      toast.error("Không thể tải dữ liệu hóa đơn");
       setLoading(false);
     }
   };
@@ -63,7 +63,7 @@ export default function Invoice() {
       const data = await getAllStore();
       setStores(data);
     } catch (error) {
-      console.error("Error fetching stores:", error);
+      console.error("Lỗi khi tải dữ liệu cửa hàng:", error);
     }
   };
 
@@ -72,7 +72,7 @@ export default function Invoice() {
       const data = await getAllLaundryOrders();
       setLaundryOrders(data);
     } catch (error) {
-      console.error("Error fetching laundry orders:", error);
+      console.error("Lỗi khi tải đơn hàng giặt:", error);
     }
   };
 
@@ -99,10 +99,10 @@ export default function Invoice() {
       fetchInvoices();
       setIsDeleteDialogOpen(false);
       setSelectedInvoiceId(null);
-      toast.success("Invoice deleted successfully");
+      toast.success("Đã xóa hóa đơn thành công");
     } catch (error) {
-      console.error("Error deleting invoice:", error);
-      toast.error("Failed to delete invoice");
+      console.error("Lỗi khi xóa hóa đơn:", error);
+      toast.error("Không thể xóa hóa đơn");
     }
     setDeleteLoading(false);
   };
@@ -115,12 +115,12 @@ export default function Invoice() {
   // Helper functions for displaying related data
   const getStoreName = (storeId: string) => {
     const store = stores.find((s) => s._id === storeId);
-    return store ? store.name : "Unknown Store";
+    return store ? store.name : "Cửa hàng không xác định";
   };
 
   const getLaundryOrderId = (orderId: string) => {
     const order = laundryOrders.find((o) => o._id === orderId);
-    return order ? `#${order._id.slice(-6)}` : "Unknown Order";
+    return order ? `#${order._id.slice(-6)}` : "Đơn hàng không xác định";
   };
 
   // Format currency
@@ -151,7 +151,7 @@ export default function Invoice() {
   const columns: ColumnDef<InvoiceResponse>[] = [
     {
       accessorKey: "_id",
-      header: "Invoice ID",
+      header: "Mã Hóa Đơn",
       cell: ({ row }) => {
         const id = row.getValue("_id") as string;
         return `#${id.slice(-6)}`;
@@ -159,7 +159,7 @@ export default function Invoice() {
     },
     {
       accessorKey: "id_laundry_order",
-      header: "Order ID",
+      header: "Mã Đơn Hàng",
       cell: ({ row }) => {
         const orderId = row.getValue("id_laundry_order") as string;
         return getLaundryOrderId(orderId);
@@ -167,7 +167,7 @@ export default function Invoice() {
     },
     {
       accessorKey: "id_store",
-      header: "Store",
+      header: "Cửa Hàng",
       cell: ({ row }) => {
         const storeId = row.getValue("id_store") as string;
         return getStoreName(storeId);
@@ -175,7 +175,7 @@ export default function Invoice() {
     },
     {
       accessorKey: "date",
-      header: "Invoice Date",
+      header: "Ngày Hóa Đơn",
       cell: ({ row }) => {
         const date = row.getValue("date") as string;
         return format(new Date(date), "dd/MM/yyyy");
@@ -183,7 +183,7 @@ export default function Invoice() {
     },
     {
       accessorKey: "total_price",
-      header: "Total Price",
+      header: "Tổng Tiền",
       cell: ({ row }) => {
         const amount = row.getValue("total_price") as number;
         return formatCurrency(amount);
@@ -191,7 +191,7 @@ export default function Invoice() {
     },
     {
       accessorKey: "discount_price",
-      header: "Discount",
+      header: "Giảm Giá",
       cell: ({ row }) => {
         const amount = row.getValue("discount_price") as number | undefined;
         return amount ? formatCurrency(amount) : "—";
@@ -199,7 +199,7 @@ export default function Invoice() {
     },
     {
       accessorKey: "actual_price",
-      header: "Actual Price",
+      header: "Thành Tiền",
       cell: ({ row }) => {
         const amount = row.getValue("actual_price") as number;
         return formatCurrency(amount);
@@ -207,23 +207,34 @@ export default function Invoice() {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng Thái",
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
+        const translatedStatus =
+          status.toLowerCase() === "paid"
+            ? "Đã thanh toán"
+            : status.toLowerCase() === "pending"
+            ? "Đang chờ"
+            : status.toLowerCase() === "cancelled"
+            ? "Đã hủy"
+            : status.toLowerCase() === "refunded"
+            ? "Đã hoàn tiền"
+            : status;
+
         return (
           <div
             className={`px-2 py-1 rounded-full text-xs inline-flex items-center ${getStatusBadgeClass(
               status
             )}`}
           >
-            {status}
+            {translatedStatus}
           </div>
         );
       },
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao Tác",
       cell: ({ row }) => {
         const invoice = row.original;
         return (
@@ -233,7 +244,7 @@ export default function Invoice() {
               size="icon"
               className="h-8 w-8"
               onClick={() => handleViewInvoiceDetails(invoice._id)}
-              title="View Details"
+              title="Xem Chi Tiết"
             >
               <Eye className="h-4 w-4" />
             </Button>
@@ -246,16 +257,16 @@ export default function Invoice() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Invoices</h1>
+        <h1 className="text-2xl font-bold">Hóa Đơn</h1>
         <Button onClick={handleAddInvoice} className="flex items-center gap-1">
           <PlusCircle size={16} />
-          <span>Add Invoice</span>
+          <span>Thêm Hóa Đơn</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading invoices...</p>
+          <p>Đang tải dữ liệu hóa đơn...</p>
         </div>
       ) : (
         <div>
@@ -263,11 +274,11 @@ export default function Invoice() {
             columns={columns}
             data={invoices || []}
             searchColumn="_id"
-            searchPlaceholder="Search by invoice ID..."
+            searchPlaceholder="Tìm kiếm theo mã hóa đơn..."
           />
           {invoices.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No invoices found
+              Không tìm thấy hóa đơn
             </div>
           )}
         </div>
@@ -291,10 +302,10 @@ export default function Invoice() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              invoice.
+              Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn hóa
+              đơn.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -304,14 +315,14 @@ export default function Invoice() {
                 setSelectedInvoiceId(null);
               }}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

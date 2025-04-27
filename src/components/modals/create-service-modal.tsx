@@ -45,7 +45,7 @@ export function CreateServiceModal({
     if (name === "price") {
       const priceValue = parseFloat(value);
       if (isNaN(priceValue) || priceValue <= 0) {
-        setPriceError("Price must be a positive number");
+        setPriceError("Giá phải là số dương");
       } else {
         setPriceError("");
       }
@@ -81,10 +81,10 @@ export function CreateServiceModal({
         price: 0,
         description: "",
       });
-      toast.success("Service created successfully!");
+      toast.success("Dịch vụ đã được tạo thành công!");
     } catch (error) {
       console.error("Error creating service:", error);
-      setError("Failed to create service. Please try again.");
+      setError("Không thể tạo dịch vụ. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -94,16 +94,15 @@ export function CreateServiceModal({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Service</DialogTitle>
+            <DialogTitle>Thêm Dịch Vụ Mới</DialogTitle>
             <DialogDescription>
-              Enter the details for the new service. Click save when you're
-              done.
+              Nhập thông tin cho dịch vụ mới. Nhấn lưu khi hoàn tất.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Name
+                Tên
               </Label>
               <Input
                 id="name"
@@ -116,7 +115,7 @@ export function CreateServiceModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="price" className="text-right">
-                Price
+                Giá
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -137,7 +136,7 @@ export function CreateServiceModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="description" className="text-right">
-                Description
+                Mô Tả
               </Label>
               <Textarea
                 id="description"
@@ -153,10 +152,10 @@ export function CreateServiceModal({
           {error && <p className="text-sm text-destructive mb-4">{error}</p>}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Hủy
             </Button>
             <Button type="submit" disabled={loading || !!priceError}>
-              {loading ? "Saving..." : "Save service"}
+              {loading ? "Đang Lưu..." : "Lưu Dịch Vụ"}
             </Button>
           </DialogFooter>
         </form>

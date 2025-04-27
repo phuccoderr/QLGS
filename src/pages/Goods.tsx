@@ -49,9 +49,9 @@ export default function Goods() {
       setGoods(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching goods:", error);
+      console.error("Lỗi khi tải dữ liệu hàng hóa:", error);
       setLoading(false);
-      toast.error("Failed to load goods data");
+      toast.error("Không thể tải dữ liệu hàng hóa");
     }
   };
 
@@ -77,12 +77,14 @@ export default function Goods() {
     try {
       await updateGoods(goodsId, { status: !currentStatus });
       toast.success(
-        `Goods status updated to ${!currentStatus ? "active" : "inactive"}`
+        `Đã cập nhật trạng thái hàng hóa thành ${
+          !currentStatus ? "hoạt động" : "không hoạt động"
+        }`
       );
       fetchGoods();
     } catch (error) {
-      console.error("Error updating goods status:", error);
-      toast.error("Failed to update goods status");
+      console.error("Lỗi khi cập nhật trạng thái hàng hóa:", error);
+      toast.error("Không thể cập nhật trạng thái hàng hóa");
     }
     setStatusUpdateLoading(false);
   };
@@ -96,10 +98,10 @@ export default function Goods() {
       fetchGoods();
       setIsDeleteDialogOpen(false);
       setSelectedGoodsId(null);
-      toast.success("Goods deleted successfully");
+      toast.success("Đã xóa hàng hóa thành công");
     } catch (error) {
-      console.error("Error deleting goods:", error);
-      toast.error("Failed to delete goods");
+      console.error("Lỗi khi xóa hàng hóa:", error);
+      toast.error("Không thể xóa hàng hóa");
     }
     setDeleteLoading(false);
   };
@@ -127,12 +129,12 @@ export default function Goods() {
   const columns: ColumnDef<GoodsResponse>[] = [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "Tên",
     },
 
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao tác",
       cell: ({ row }) => {
         const goods = row.original;
 
@@ -176,16 +178,16 @@ export default function Goods() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Goods</h1>
+        <h1 className="text-2xl font-bold">Hàng Hóa</h1>
         <Button onClick={handleAddGoods} className="flex items-center gap-1">
           <PlusCircle size={16} />
-          <span>Add Goods</span>
+          <span>Thêm Hàng Hóa</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading goods data...</p>
+          <p>Đang tải dữ liệu hàng hóa...</p>
         </div>
       ) : (
         <div>
@@ -193,11 +195,11 @@ export default function Goods() {
             columns={columns}
             data={goods || []}
             searchColumn="name"
-            searchPlaceholder="Search by name..."
+            searchPlaceholder="Tìm kiếm theo tên..."
           />
           {goods.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No goods found
+              Không tìm thấy hàng hóa
             </div>
           )}
         </div>
@@ -222,20 +224,20 @@ export default function Goods() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action will permanently delete this goods item. This action
-              cannot be undone.
+              Hành động này sẽ xóa vĩnh viễn mặt hàng này. Hành động này không
+              thể hoàn tác.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Hủy</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               disabled={deleteLoading}
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

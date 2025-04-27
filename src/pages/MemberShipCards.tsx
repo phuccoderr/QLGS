@@ -45,7 +45,7 @@ export default function MemberShipCards() {
       setMembershipCards(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching membership cards:", error);
+      console.error("Lỗi khi tải dữ liệu thẻ thành viên:", error);
       setLoading(false);
     }
   };
@@ -93,14 +93,14 @@ export default function MemberShipCards() {
       setIsDeleteDialogOpen(false);
       setSelectedCardId(null);
     } catch (error) {
-      console.error("Error deleting membership card:", error);
+      console.error("Lỗi khi xóa thẻ thành viên:", error);
     }
     setDeleteLoading(false);
   };
 
   // Format date string for display
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("vi-VN", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -111,25 +111,25 @@ export default function MemberShipCards() {
   const columns: ColumnDef<MemberShipCardResponse>[] = [
     {
       accessorKey: "card_number",
-      header: "Card Number",
+      header: "Số Thẻ",
     },
     {
       accessorKey: "id_customer",
-      header: "Customer ID",
+      header: "Mã Khách Hàng",
     },
     {
       accessorKey: "issue_date",
-      header: "Issue Date",
+      header: "Ngày Phát Hành",
       cell: ({ row }) => formatDate(row.getValue("issue_date") as string),
     },
     {
       accessorKey: "expiry_date",
-      header: "Expiry Date",
+      header: "Ngày Hết Hạn",
       cell: ({ row }) => formatDate(row.getValue("expiry_date") as string),
     },
     {
       accessorKey: "points",
-      header: "Points",
+      header: "Điểm",
       cell: ({ row }) => {
         const points = row.getValue("points") as number;
         return <span className="font-medium">{points.toLocaleString()}</span>;
@@ -137,25 +137,30 @@ export default function MemberShipCards() {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng Thái",
       cell: ({ row }) => {
         const status = row.getValue("status") as boolean;
         return (
           <Badge variant={status ? "default" : "secondary"}>
-            {status ? "Active" : "Inactive"}
+            {status ? "Hoạt động" : "Không hoạt động"}
           </Badge>
         );
       },
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao Tác",
       cell: ({ row }) => {
         const card = row.original;
 
         return (
           <div className="flex space-x-2">
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              title="Xem chi tiết"
+            >
               <Eye className="h-4 w-4" />
             </Button>
             <Button
@@ -163,6 +168,7 @@ export default function MemberShipCards() {
               size="icon"
               className="h-8 w-8"
               onClick={() => handleEditCard(card._id)}
+              title="Chỉnh sửa"
             >
               <Edit className="h-4 w-4" />
             </Button>
@@ -171,6 +177,7 @@ export default function MemberShipCards() {
               size="icon"
               className="h-8 w-8 text-destructive"
               onClick={() => handleDeleteCard(card._id)}
+              title="Xóa"
             >
               <Trash className="h-4 w-4" />
             </Button>
@@ -183,16 +190,16 @@ export default function MemberShipCards() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Membership Cards</h1>
+        <h1 className="text-2xl font-bold">Thẻ Thành Viên</h1>
         <Button onClick={handleAddCard} className="flex items-center gap-1">
           <PlusCircle size={16} />
-          <span>Add Membership Card</span>
+          <span>Thêm Thẻ Thành Viên</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading membership cards...</p>
+          <p>Đang tải dữ liệu thẻ thành viên...</p>
         </div>
       ) : (
         <div>
@@ -200,11 +207,11 @@ export default function MemberShipCards() {
             columns={columns}
             data={membershipCards || []}
             searchColumn="card_number"
-            searchPlaceholder="Search by card number..."
+            searchPlaceholder="Tìm kiếm theo số thẻ..."
           />
           {membershipCards.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No membership cards found
+              Không tìm thấy thẻ thành viên
             </div>
           )}
         </div>
@@ -229,10 +236,10 @@ export default function MemberShipCards() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              membership card and all associated data.
+              Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn thẻ
+              thành viên và tất cả dữ liệu liên quan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -242,14 +249,14 @@ export default function MemberShipCards() {
                 setSelectedCardId(null);
               }}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -65,7 +65,7 @@ export function UpdateCustomerModal({
         setFetchLoading(false);
       } catch (error) {
         console.error("Error fetching customer:", error);
-        setError("Failed to load customer data. Please try again.");
+        setError("Không thể tải dữ liệu khách hàng. Vui lòng thử lại.");
         setFetchLoading(false);
       }
     };
@@ -81,7 +81,7 @@ export function UpdateCustomerModal({
     // Date validation
     if (name === "birth_day") {
       if (!value) {
-        setDateError("Birth date is required");
+        setDateError("Ngày sinh là bắt buộc");
       } else {
         setDateError("");
       }
@@ -101,7 +101,7 @@ export function UpdateCustomerModal({
     let hasError = false;
 
     if (!formData.birth_day) {
-      setDateError("Birth date is required");
+      setDateError("Ngày sinh là bắt buộc");
       hasError = true;
     }
 
@@ -110,7 +110,7 @@ export function UpdateCustomerModal({
     }
 
     if (!customerId) {
-      setError("Customer ID is missing");
+      setError("Thiếu mã khách hàng");
       return;
     }
 
@@ -123,10 +123,10 @@ export function UpdateCustomerModal({
       setLoading(false);
       onSuccess();
       onClose();
-      toast.success("Customer updated successfully");
+      toast.success("Cập nhật khách hàng thành công");
     } catch (error) {
       console.error("Error updating customer:", error);
-      setError("Failed to update customer. Please try again.");
+      setError("Không thể cập nhật khách hàng. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -135,20 +135,19 @@ export function UpdateCustomerModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         {fetchLoading ? (
-          <div className="py-6 text-center">Loading customer data...</div>
+          <div className="py-6 text-center">Đang tải dữ liệu khách hàng...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             <DialogHeader>
-              <DialogTitle>Update Customer</DialogTitle>
+              <DialogTitle>Cập Nhật Khách Hàng</DialogTitle>
               <DialogDescription>
-                Update the details for this customer. Click save when you're
-                done.
+                Cập nhật thông tin cho khách hàng này. Nhấn lưu khi hoàn tất.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
-                  Name
+                  Tên
                 </Label>
                 <Input
                   id="name"
@@ -175,7 +174,7 @@ export function UpdateCustomerModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="phoneNumber" className="text-right">
-                  Phone
+                  Điện Thoại
                 </Label>
                 <Input
                   id="phoneNumber"
@@ -188,7 +187,7 @@ export function UpdateCustomerModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="address" className="text-right">
-                  Address
+                  Địa Chỉ
                 </Label>
                 <Input
                   id="address"
@@ -201,7 +200,7 @@ export function UpdateCustomerModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="birth_day" className="text-right">
-                  Birth Date
+                  Ngày Sinh
                 </Label>
                 <div className="col-span-3 space-y-1">
                   <Input
@@ -226,7 +225,7 @@ export function UpdateCustomerModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="customer_type" className="text-right">
-                  Customer Type
+                  Loại Khách Hàng
                 </Label>
                 <select
                   id="customer_type"
@@ -235,8 +234,8 @@ export function UpdateCustomerModal({
                   onChange={handleChange}
                   className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  <option value="Regular">Regular</option>
-                  <option value="Premium">Premium</option>
+                  <option value="Regular">Thường</option>
+                  <option value="Premium">Cao Cấp</option>
                   <option value="VIP">VIP</option>
                 </select>
               </div>
@@ -244,10 +243,10 @@ export function UpdateCustomerModal({
             {error && <p className="text-sm text-destructive mb-4">{error}</p>}
             <DialogFooter>
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                Hủy
               </Button>
               <Button type="submit" disabled={loading || !!dateError}>
-                {loading ? "Saving..." : "Save changes"}
+                {loading ? "Đang Lưu..." : "Lưu Thay Đổi"}
               </Button>
             </DialogFooter>
           </form>

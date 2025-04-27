@@ -125,7 +125,7 @@ export function CreateCustomerModal({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Customer</DialogTitle>
+            <DialogTitle>Thêm khách hàng</DialogTitle>
             <DialogDescription>
               Enter the details for the new customer. Click save when you're
               done.
@@ -134,7 +134,7 @@ export function CreateCustomerModal({
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Name
+                Tên
               </Label>
               <Input
                 id="name"
@@ -161,7 +161,7 @@ export function CreateCustomerModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="phoneNumber" className="text-right">
-                Phone
+                Số điện thoại
               </Label>
               <Input
                 id="phoneNumber"
@@ -174,7 +174,7 @@ export function CreateCustomerModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="address" className="text-right">
-                Address
+                Địa chỉ
               </Label>
               <Input
                 id="address"
@@ -187,7 +187,7 @@ export function CreateCustomerModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="birth_day" className="text-right">
-                Birth Date
+                Ngày sinh
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -210,7 +210,7 @@ export function CreateCustomerModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="customer_type" className="text-right">
-                Customer Type
+                Loại khách hàng
               </Label>
               <select
                 id="customer_type"
@@ -219,14 +219,14 @@ export function CreateCustomerModal({
                 onChange={handleChange}
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <option value="Regular">Regular</option>
+                <option value="Regular">Thường</option>
                 <option value="Premium">Premium</option>
                 <option value="VIP">VIP</option>
               </select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="password" className="text-right">
-                Password
+                Mật khẩu
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -248,7 +248,7 @@ export function CreateCustomerModal({
           {error && <p className="text-sm text-destructive mb-4">{error}</p>}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Huỷ
             </Button>
             <Button
               type="submit"

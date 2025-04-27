@@ -40,7 +40,7 @@ export default function Customers() {
       setCustomers(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching customers:", error);
+      console.error("Lỗi khi tải dữ liệu khách hàng:", error);
       setLoading(false);
     }
   };
@@ -69,7 +69,7 @@ export default function Customers() {
       setIsDeleteDialogOpen(false);
       setSelectedCustomerId(null);
     } catch (error) {
-      console.error("Error deleting customer:", error);
+      console.error("Lỗi khi xóa khách hàng:", error);
     }
     setDeleteLoading(false);
   };
@@ -97,7 +97,7 @@ export default function Customers() {
   const columns: ColumnDef<CustomerResponse>[] = [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "Tên",
     },
     {
       accessorKey: "email",
@@ -105,11 +105,11 @@ export default function Customers() {
     },
     {
       accessorKey: "phoneNumber",
-      header: "Phone Number",
+      header: "Số Điện Thoại",
     },
     {
       accessorKey: "address",
-      header: "Address",
+      header: "Địa Chỉ",
       cell: ({ row }) => {
         const address = row.getValue("address") as string;
         // Truncate long addresses
@@ -118,11 +118,11 @@ export default function Customers() {
     },
     {
       accessorKey: "customer_type",
-      header: "Customer Type",
+      header: "Loại Khách Hàng",
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao Tác",
       cell: ({ row }) => {
         const customer = row.original;
 
@@ -156,16 +156,16 @@ export default function Customers() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Customers</h1>
+        <h1 className="text-2xl font-bold">Khách hàng</h1>
         <Button onClick={handleAddCustomer} className="flex items-center gap-1">
           <PlusCircle size={16} />
-          <span>Add Customer</span>
+          <span>Thêm khách hàng</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading customers...</p>
+          <p>Đang tải dữ liệu khách hàng...</p>
         </div>
       ) : (
         <div>
@@ -173,11 +173,11 @@ export default function Customers() {
             columns={columns}
             data={customers || []}
             searchColumn="name"
-            searchPlaceholder="Search by name..."
+            searchPlaceholder="Tìm kiếm khách hàng..."
           />
           {customers.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No customers found
+              Không tìm thấy khách hàng nào
             </div>
           )}
         </div>
@@ -202,10 +202,10 @@ export default function Customers() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              customer and all associated data.
+              Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn khách
+              hàng và tất cả dữ liệu liên quan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -215,14 +215,14 @@ export default function Customers() {
                 setSelectedCustomerId(null);
               }}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -44,7 +44,7 @@ export default function Store() {
       setStoreItems(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching stores:", error);
+      console.error("Lỗi khi tải dữ liệu cửa hàng:", error);
       setLoading(false);
     }
   };
@@ -79,11 +79,13 @@ export default function Store() {
       );
 
       toast.success(
-        `Store status updated to ${!currentStatus ? "active" : "inactive"}`
+        `Đã cập nhật trạng thái cửa hàng thành ${
+          !currentStatus ? "hoạt động" : "không hoạt động"
+        }`
       );
     } catch (error) {
-      console.error("Error updating store status:", error);
-      toast.error("Failed to update store status");
+      console.error("Lỗi khi cập nhật trạng thái cửa hàng:", error);
+      toast.error("Không thể cập nhật trạng thái cửa hàng");
     }
     setStatusUpdateLoading(null);
   };
@@ -97,10 +99,10 @@ export default function Store() {
       fetchStoreItems();
       setIsDeleteDialogOpen(false);
       setSelectedStoreId(null);
-      toast.success("Store deleted successfully");
+      toast.success("Đã xóa cửa hàng thành công");
     } catch (error) {
-      console.error("Error deleting store:", error);
-      toast.error("Failed to delete store");
+      console.error("Lỗi khi xóa cửa hàng:", error);
+      toast.error("Không thể xóa cửa hàng");
     }
     setDeleteLoading(false);
   };
@@ -126,7 +128,7 @@ export default function Store() {
 
   // Format date string for display
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("vi-VN", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -137,11 +139,11 @@ export default function Store() {
   const columns: ColumnDef<StoreResponse>[] = [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "Tên",
     },
     {
       accessorKey: "phoneNumber",
-      header: "Phone Number",
+      header: "Số Điện Thoại",
       cell: ({ row }) => {
         const phoneNumber = row.getValue("phoneNumber") as string;
         return phoneNumber || "N/A";
@@ -149,7 +151,7 @@ export default function Store() {
     },
     {
       accessorKey: "address",
-      header: "Address",
+      header: "Địa Chỉ",
       cell: ({ row }) => {
         const address = row.getValue("address") as string;
         if (!address) return "N/A";

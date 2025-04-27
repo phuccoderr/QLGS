@@ -57,7 +57,7 @@ export function CreateStoreModal({
       setManagers(data);
     } catch (error) {
       console.error("Error fetching customers:", error);
-      setError("Failed to load customers. Please try again.");
+      setError("Không thể tải dữ liệu khách hàng. Vui lòng thử lại.");
     }
     setManagersLoading(false);
   };
@@ -95,7 +95,7 @@ export function CreateStoreModal({
 
     // Validate required fields
     if (!formData.name?.trim()) {
-      setError("Name is required");
+      setError("Tên là bắt buộc");
       return;
     }
 
@@ -108,10 +108,10 @@ export function CreateStoreModal({
       resetForm();
       onSuccess();
       onClose();
-      toast.success("Store created successfully!");
+      toast.success("Cửa hàng đã được tạo thành công!");
     } catch (error) {
       console.error("Error creating store:", error);
-      setError("Failed to create store. Please try again.");
+      setError("Không thể tạo cửa hàng. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -121,15 +121,15 @@ export function CreateStoreModal({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Store</DialogTitle>
+            <DialogTitle>Thêm Cửa Hàng Mới</DialogTitle>
             <DialogDescription>
-              Create a new store record. Click save when you're done.
+              Tạo bản ghi cửa hàng mới. Nhấn lưu khi hoàn tất.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Name
+                Tên
               </Label>
               <Input
                 id="name"
@@ -142,7 +142,7 @@ export function CreateStoreModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="phoneNumber" className="text-right">
-                Phone Number
+                Số Điện Thoại
               </Label>
               <Input
                 id="phoneNumber"
@@ -154,7 +154,7 @@ export function CreateStoreModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="address" className="text-right">
-                Address
+                Địa Chỉ
               </Label>
               <Input
                 id="address"
@@ -166,7 +166,7 @@ export function CreateStoreModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_manager" className="text-right">
-                Customer
+                Khách Hàng
               </Label>
               <select
                 id="id_manager"
@@ -176,7 +176,7 @@ export function CreateStoreModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={managersLoading}
               >
-                <option value="">Select a customer</option>
+                <option value="">Chọn khách hàng</option>
                 {managers.map((customer) => (
                   <option key={customer._id} value={customer._id}>
                     {customer.name}
@@ -186,7 +186,7 @@ export function CreateStoreModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="status" className="text-right">
-                Status
+                Trạng Thái
               </Label>
               <div className="flex items-center space-x-2 col-span-3">
                 <Switch
@@ -195,7 +195,7 @@ export function CreateStoreModal({
                   onCheckedChange={handleSwitchChange}
                 />
                 <Label htmlFor="status" className="cursor-pointer">
-                  {formData.status ? "Active" : "Inactive"}
+                  {formData.status ? "Hoạt Động" : "Không Hoạt Động"}
                 </Label>
               </div>
             </div>
@@ -203,10 +203,10 @@ export function CreateStoreModal({
           {error && <p className="text-sm text-destructive mb-4">{error}</p>}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Hủy
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? "Creating..." : "Create"}
+              {loading ? "Đang Tạo..." : "Tạo"}
             </Button>
           </DialogFooter>
         </form>

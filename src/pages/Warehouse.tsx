@@ -63,9 +63,9 @@ export default function Warehouse() {
       setWarehouse(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching warehouse data:", error);
+      console.error("Lỗi khi tải dữ liệu kho hàng:", error);
       setLoading(false);
-      toast.error("Failed to load warehouse data");
+      toast.error("Không thể tải dữ liệu kho hàng");
     }
   };
 
@@ -74,7 +74,7 @@ export default function Warehouse() {
       const data = await getAllGoods();
       setGoods(data);
     } catch (error) {
-      console.error("Error fetching goods data:", error);
+      console.error("Lỗi khi tải dữ liệu hàng hóa:", error);
     }
   };
 
@@ -83,7 +83,7 @@ export default function Warehouse() {
       const data = await getAllStore();
       setStores(data);
     } catch (error) {
-      console.error("Error fetching store data:", error);
+      console.error("Lỗi khi tải dữ liệu cửa hàng:", error);
     }
   };
 
@@ -112,11 +112,11 @@ export default function Warehouse() {
       : Math.max(0, currentQuantity - 1);
     try {
       await updateWarehouse(warehouseId, { quantity: newQuantity });
-      toast.success(`Quantity updated to ${newQuantity}`);
+      toast.success(`Đã cập nhật số lượng thành ${newQuantity}`);
       fetchWarehouse();
     } catch (error) {
-      console.error("Error updating quantity:", error);
-      toast.error("Failed to update quantity");
+      console.error("Lỗi khi cập nhật số lượng:", error);
+      toast.error("Không thể cập nhật số lượng");
     }
     setQuantityUpdateLoading(false);
   };
@@ -130,10 +130,10 @@ export default function Warehouse() {
       fetchWarehouse();
       setIsDeleteDialogOpen(false);
       setSelectedWarehouseId(null);
-      toast.success("Warehouse record deleted successfully");
+      toast.success("Đã xóa bản ghi kho hàng thành công");
     } catch (error) {
-      console.error("Error deleting warehouse record:", error);
-      toast.error("Failed to delete warehouse record");
+      console.error("Lỗi khi xóa bản ghi kho hàng:", error);
+      toast.error("Không thể xóa bản ghi kho hàng");
     }
     setDeleteLoading(false);
   };
@@ -158,20 +158,20 @@ export default function Warehouse() {
   // Get store name by ID
   const getStoreName = (storeId: string) => {
     const store = stores.find((s) => s._id === storeId);
-    return store ? store.name : "Unknown Store";
+    return store ? store.name : "Cửa hàng không xác định";
   };
 
   // Get goods name by ID
   const getGoodsName = (goodsId: string) => {
     const goodsItem = goods.find((g) => g._id === goodsId);
-    return goodsItem ? goodsItem.name : "Unknown Item";
+    return goodsItem ? goodsItem.name : "Hàng hóa không xác định";
   };
 
   // Define columns for warehouse table
   const columns: ColumnDef<WarehouseResponse>[] = [
     {
       accessorKey: "id_store",
-      header: "Store",
+      header: "Cửa Hàng",
       cell: ({ row }) => {
         const storeId = row.getValue("id_store") as string;
         return getStoreName(storeId);
@@ -179,7 +179,7 @@ export default function Warehouse() {
     },
     {
       accessorKey: "id_goods",
-      header: "Goods",
+      header: "Hàng Hóa",
       cell: ({ row }) => {
         const goodsId = row.getValue("id_goods") as string;
         return getGoodsName(goodsId);
@@ -187,7 +187,7 @@ export default function Warehouse() {
     },
     {
       accessorKey: "quantity",
-      header: "Quantity",
+      header: "Số Lượng",
       cell: ({ row }) => {
         const quantity = row.getValue("quantity") as number;
         return (
@@ -202,6 +202,7 @@ export default function Warehouse() {
                   handleUpdateQuantity(row.original._id, quantity, false)
                 }
                 disabled={quantityUpdateLoading || quantity <= 0}
+                title="Giảm số lượng"
               >
                 <MinusCircle className="h-4 w-4" />
               </Button>
@@ -213,6 +214,7 @@ export default function Warehouse() {
                   handleUpdateQuantity(row.original._id, quantity, true)
                 }
                 disabled={quantityUpdateLoading}
+                title="Tăng số lượng"
               >
                 <PlusIcon className="h-4 w-4" />
               </Button>
@@ -223,19 +225,19 @@ export default function Warehouse() {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng Thái",
       cell: ({ row }) => {
         const status = row.getValue("status") as boolean;
         return (
           <Badge variant={status ? "default" : "destructive"}>
-            {status ? "Active" : "Inactive"}
+            {status ? "Hoạt động" : "Không hoạt động"}
           </Badge>
         );
       },
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao Tác",
       cell: ({ row }) => {
         const warehouse = row.original;
 
@@ -246,6 +248,7 @@ export default function Warehouse() {
               size="icon"
               className="h-8 w-8"
               onClick={() => handleEditWarehouse(warehouse._id)}
+              title="Chỉnh sửa"
             >
               <Edit className="h-4 w-4" />
             </Button>
@@ -254,6 +257,7 @@ export default function Warehouse() {
               size="icon"
               className="h-8 w-8 text-destructive"
               onClick={() => handleDeleteWarehouse(warehouse._id)}
+              title="Xóa"
             >
               <Trash className="h-4 w-4" />
             </Button>
@@ -266,19 +270,19 @@ export default function Warehouse() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Warehouse</h1>
+        <h1 className="text-2xl font-bold">Kho Hàng</h1>
         <Button
           onClick={handleAddWarehouse}
           className="flex items-center gap-1"
         >
           <PlusCircle size={16} />
-          <span>Add Warehouse Record</span>
+          <span>Thêm Bản Ghi Kho Hàng</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading warehouse data...</p>
+          <p>Đang tải dữ liệu kho hàng...</p>
         </div>
       ) : (
         <div>
@@ -286,11 +290,11 @@ export default function Warehouse() {
             columns={columns}
             data={warehouse || []}
             searchColumn="id_goods"
-            searchPlaceholder="Search by goods ID..."
+            searchPlaceholder="Tìm kiếm theo mã hàng hóa..."
           />
           {warehouse.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No warehouse records found
+              Không tìm thấy bản ghi kho hàng
             </div>
           )}
         </div>
@@ -319,20 +323,20 @@ export default function Warehouse() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action will permanently delete this warehouse record. This
-              action cannot be undone.
+              Hành động này sẽ xóa vĩnh viễn bản ghi kho hàng này. Hành động này
+              không thể hoàn tác.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Hủy</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               disabled={deleteLoading}
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

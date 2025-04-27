@@ -52,8 +52,8 @@ export default function Reports() {
           setSelectedStore(storeData[0]._id);
         }
       } catch (err) {
-        console.error("Error fetching stores:", err);
-        setError("Failed to load stores");
+        console.error("Lỗi khi tải dữ liệu cửa hàng:", err);
+        setError("Không thể tải dữ liệu cửa hàng");
       }
     };
 
@@ -76,8 +76,8 @@ export default function Reports() {
       const dataArray = Array.isArray(data) ? data : [data];
       setReportData(dataArray);
     } catch (err) {
-      console.error("Error fetching report data:", err);
-      setError("Failed to load report data");
+      console.error("Lỗi khi tải dữ liệu báo cáo:", err);
+      setError("Không thể tải dữ liệu báo cáo");
     } finally {
       setLoading(false);
     }
@@ -114,11 +114,11 @@ export default function Reports() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Sales Reports</h1>
+        <h1 className="text-2xl font-bold">Báo Cáo Doanh Số</h1>
         <div className="flex space-x-2">
           <Select value={selectedStore} onValueChange={setSelectedStore}>
             <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Select Store" />
+              <SelectValue placeholder="Chọn Cửa Hàng" />
             </SelectTrigger>
             <SelectContent>
               {stores.map((store) => (
@@ -136,12 +136,12 @@ export default function Reports() {
             ) => setSelectedPeriod(value)}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select Period" />
+              <SelectValue placeholder="Chọn Thời Gian" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="last_7_days">Last 7 Days</SelectItem>
-              <SelectItem value="last_30_days">Last 30 Days</SelectItem>
-              <SelectItem value="last_year">Last Year</SelectItem>
+              <SelectItem value="last_7_days">7 Ngày Qua</SelectItem>
+              <SelectItem value="last_30_days">30 Ngày Qua</SelectItem>
+              <SelectItem value="last_year">Năm Vừa Qua</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -155,7 +155,7 @@ export default function Reports() {
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading report data...</p>
+          <p>Đang tải dữ liệu báo cáo...</p>
         </div>
       ) : (
         <>
@@ -164,7 +164,7 @@ export default function Reports() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Total Sales
+                  Tổng Doanh Thu
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -173,34 +173,34 @@ export default function Reports() {
                 </div>
                 <p className="text-xs text-muted-foreground">
                   {selectedPeriod === "last_7_days"
-                    ? "Last 7 days"
+                    ? "7 ngày qua"
                     : selectedPeriod === "last_30_days"
-                    ? "Last 30 days"
-                    : "Last year"}
+                    ? "30 ngày qua"
+                    : "Năm vừa qua"}
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Total Orders
+                  Tổng Đơn Hàng
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{totalOrders}</div>
                 <p className="text-xs text-muted-foreground">
                   {selectedPeriod === "last_7_days"
-                    ? "Last 7 days"
+                    ? "7 ngày qua"
                     : selectedPeriod === "last_30_days"
-                    ? "Last 30 days"
-                    : "Last year"}
+                    ? "30 ngày qua"
+                    : "Năm vừa qua"}
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Average Order Value
+                  Giá Trị Trung Bình Mỗi Đơn
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -209,10 +209,10 @@ export default function Reports() {
                 </div>
                 <p className="text-xs text-muted-foreground">
                   {selectedPeriod === "last_7_days"
-                    ? "Last 7 days"
+                    ? "7 ngày qua"
                     : selectedPeriod === "last_30_days"
-                    ? "Last 30 days"
-                    : "Last year"}
+                    ? "30 ngày qua"
+                    : "Năm vừa qua"}
                 </p>
               </CardContent>
             </Card>
@@ -221,17 +221,17 @@ export default function Reports() {
           {/* Chart Tabs */}
           <Tabs defaultValue="sales" className="space-y-4">
             <TabsList>
-              <TabsTrigger value="sales">Sales</TabsTrigger>
-              <TabsTrigger value="orders">Orders</TabsTrigger>
+              <TabsTrigger value="sales">Doanh Thu</TabsTrigger>
+              <TabsTrigger value="orders">Đơn Hàng</TabsTrigger>
             </TabsList>
             <TabsContent value="sales" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Sales Trend</CardTitle>
+                  <CardTitle>Xu Hướng Doanh Thu</CardTitle>
                   <CardDescription>
-                    Gross sales over time for{" "}
+                    Doanh thu theo thời gian của{" "}
                     {stores.find((s) => s._id === selectedStore)?.name ||
-                      "selected store"}
+                      "cửa hàng đã chọn"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -266,9 +266,9 @@ export default function Reports() {
                         <Tooltip
                           formatter={(value) => [
                             formatCurrency(value as number),
-                            "Sales",
+                            "Doanh Thu",
                           ]}
-                          labelFormatter={(label) => `Date: ${label}`}
+                          labelFormatter={(label) => `Ngày: ${label}`}
                         />
                         <Legend />
                         <Line
@@ -276,7 +276,7 @@ export default function Reports() {
                           dataKey="gross_sales"
                           stroke="#8884d8"
                           activeDot={{ r: 8 }}
-                          name="Sales"
+                          name="Doanh Thu"
                         />
                       </LineChart>
                     </ResponsiveContainer>
@@ -287,11 +287,11 @@ export default function Reports() {
             <TabsContent value="orders" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Orders Count</CardTitle>
+                  <CardTitle>Số Lượng Đơn Hàng</CardTitle>
                   <CardDescription>
-                    Number of orders over time for{" "}
+                    Số đơn hàng theo thời gian của{" "}
                     {stores.find((s) => s._id === selectedStore)?.name ||
-                      "selected store"}
+                      "cửa hàng đã chọn"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -315,14 +315,14 @@ export default function Reports() {
                         />
                         <YAxis />
                         <Tooltip
-                          formatter={(value) => [`${value}`, "Orders"]}
-                          labelFormatter={(label) => `Date: ${label}`}
+                          formatter={(value) => [`${value}`, "Đơn Hàng"]}
+                          labelFormatter={(label) => `Ngày: ${label}`}
                         />
                         <Legend />
                         <Bar
                           dataKey="orders_count"
                           fill="#82ca9d"
-                          name="Orders"
+                          name="Đơn Hàng"
                         />
                       </BarChart>
                     </ResponsiveContainer>

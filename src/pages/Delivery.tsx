@@ -55,8 +55,8 @@ export default function Delivery() {
       setDeliveries(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching deliveries:", error);
-      toast.error("Failed to load deliveries");
+      console.error("Lỗi khi tải dữ liệu giao hàng:", error);
+      toast.error("Không thể tải dữ liệu giao hàng");
       setLoading(false);
     }
   };
@@ -66,7 +66,7 @@ export default function Delivery() {
       const data = await getAllLaundryOrders();
       setLaundryOrders(data);
     } catch (error) {
-      console.error("Error fetching laundry orders:", error);
+      console.error("Lỗi khi tải đơn hàng giặt:", error);
     }
   };
 
@@ -75,7 +75,7 @@ export default function Delivery() {
       const data = await getAllStore();
       setStores(data);
     } catch (error) {
-      console.error("Error fetching stores:", error);
+      console.error("Lỗi khi tải dữ liệu cửa hàng:", error);
     }
   };
 
@@ -84,7 +84,7 @@ export default function Delivery() {
       const data = await getAllStaff();
       setStaff(data);
     } catch (error) {
-      console.error("Error fetching staff:", error);
+      console.error("Lỗi khi tải dữ liệu nhân viên:", error);
     }
   };
 
@@ -111,10 +111,10 @@ export default function Delivery() {
       fetchDeliveries();
       setIsDeleteDialogOpen(false);
       setSelectedDeliveryId(null);
-      toast.success("Delivery record deleted successfully");
+      toast.success("Đã xóa dữ liệu giao hàng thành công");
     } catch (error) {
-      console.error("Error deleting delivery:", error);
-      toast.error("Failed to delete delivery record");
+      console.error("Lỗi khi xóa dữ liệu giao hàng:", error);
+      toast.error("Không thể xóa dữ liệu giao hàng");
     }
     setDeleteLoading(false);
   };
@@ -135,17 +135,17 @@ export default function Delivery() {
   // Helper functions for displaying related data
   const getLaundryOrderId = (orderId: string) => {
     const order = laundryOrders.find((o) => o._id === orderId);
-    return order ? `#${order._id.slice(-6)}` : "Unknown Order";
+    return order ? `#${order._id.slice(-6)}` : "Đơn hàng không xác định";
   };
 
   const getStoreName = (storeId: string) => {
     const store = stores.find((s) => s._id === storeId);
-    return store ? store.name : "Unknown Store";
+    return store ? store.name : "Cửa hàng không xác định";
   };
 
   const getStaffName = (staffId: string) => {
     const staffMember = staff.find((s) => s._id === staffId);
-    return staffMember ? staffMember.name : "Unknown Staff";
+    return staffMember ? staffMember.name : "Nhân viên không xác định";
   };
 
   // Get status badge class
@@ -166,7 +166,7 @@ export default function Delivery() {
   const columns: ColumnDef<DeliveryResponse>[] = [
     {
       accessorKey: "_id",
-      header: "Delivery ID",
+      header: "Mã Giao Hàng",
       cell: ({ row }) => {
         const id = row.getValue("_id") as string;
         return `#${id.slice(-6)}`;
@@ -174,7 +174,7 @@ export default function Delivery() {
     },
     {
       accessorKey: "id_laundry_order",
-      header: "Order ID",
+      header: "Mã Đơn Hàng",
       cell: ({ row }) => {
         const orderId = row.getValue("id_laundry_order") as string;
         return getLaundryOrderId(orderId);
@@ -182,7 +182,7 @@ export default function Delivery() {
     },
     {
       accessorKey: "id_delivery_staff",
-      header: "Delivery Staff",
+      header: "Nhân Viên Giao Hàng",
       cell: ({ row }) => {
         const staffId = row.getValue("id_delivery_staff") as string;
         return getStaffName(staffId);
@@ -190,7 +190,7 @@ export default function Delivery() {
     },
     {
       accessorKey: "id_store",
-      header: "Store",
+      header: "Cửa Hàng",
       cell: ({ row }) => {
         const storeId = row.getValue("id_store") as string;
         return getStoreName(storeId);
@@ -198,30 +198,39 @@ export default function Delivery() {
     },
     {
       accessorKey: "delivery_address",
-      header: "Address",
+      header: "Địa Chỉ",
       cell: ({ row }) => {
         return row.getValue("delivery_address") as string;
       },
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng Thái",
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
+        const translatedStatus =
+          status.toLowerCase() === "delivered"
+            ? "Đã giao hàng"
+            : status.toLowerCase() === "in delivery"
+            ? "Đang giao hàng"
+            : status.toLowerCase() === "pending"
+            ? "Đang chờ"
+            : status;
+
         return (
           <div
             className={`px-2 py-1 rounded-full text-xs inline-flex items-center ${getStatusBadgeClass(
               status
             )}`}
           >
-            {status}
+            {translatedStatus}
           </div>
         );
       },
     },
     {
       accessorKey: "createdAt",
-      header: "Created Date",
+      header: "Ngày Tạo",
       cell: ({ row }) => {
         const date = row.getValue("createdAt") as Date;
         return format(new Date(date), "dd/MM/yyyy");
@@ -232,16 +241,16 @@ export default function Delivery() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Deliveries</h1>
+        <h1 className="text-2xl font-bold">Giao Hàng</h1>
         <Button onClick={handleAddDelivery} className="flex items-center gap-1">
           <PlusCircle size={16} />
-          <span>Add Delivery</span>
+          <span>Thêm Giao Hàng</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading deliveries...</p>
+          <p>Đang tải dữ liệu giao hàng...</p>
         </div>
       ) : (
         <div>
@@ -249,11 +258,11 @@ export default function Delivery() {
             columns={columns}
             data={deliveries || []}
             searchColumn="_id"
-            searchPlaceholder="Search by delivery ID..."
+            searchPlaceholder="Tìm kiếm theo mã giao hàng..."
           />
           {deliveries.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No deliveries found
+              Không tìm thấy dữ liệu giao hàng
             </div>
           )}
         </div>
@@ -274,10 +283,10 @@ export default function Delivery() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              delivery record.
+              Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn dữ
+              liệu giao hàng.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -287,14 +296,14 @@ export default function Delivery() {
                 setSelectedDeliveryId(null);
               }}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

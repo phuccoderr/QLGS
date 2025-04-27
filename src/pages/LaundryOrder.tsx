@@ -67,8 +67,8 @@ export default function LaundryOrder() {
       setLaundryOrders(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching laundry orders:", error);
-      toast.error("Failed to load laundry orders");
+      console.error("Lỗi khi tải đơn hàng giặt:", error);
+      toast.error("Không thể tải đơn hàng giặt");
       setLoading(false);
     }
   };
@@ -78,7 +78,7 @@ export default function LaundryOrder() {
       const data = await getAllServices();
       setServices(data);
     } catch (error) {
-      console.error("Error fetching services:", error);
+      console.error("Lỗi khi tải dữ liệu dịch vụ:", error);
     }
   };
 
@@ -87,7 +87,7 @@ export default function LaundryOrder() {
       const data = await getAllGoods();
       setGoods(data);
     } catch (error) {
-      console.error("Error fetching goods:", error);
+      console.error("Lỗi khi tải dữ liệu hàng hóa:", error);
     }
   };
 
@@ -96,7 +96,7 @@ export default function LaundryOrder() {
       const data = await getAllStore();
       setStores(data);
     } catch (error) {
-      console.error("Error fetching stores:", error);
+      console.error("Lỗi khi tải dữ liệu cửa hàng:", error);
     }
   };
 
@@ -105,7 +105,7 @@ export default function LaundryOrder() {
       const data = await getAllStaff();
       setStaff(data);
     } catch (error) {
-      console.error("Error fetching staff:", error);
+      console.error("Lỗi khi tải dữ liệu nhân viên:", error);
     }
   };
 
@@ -114,7 +114,7 @@ export default function LaundryOrder() {
       const data = await getAllCustomers();
       setCustomers(data);
     } catch (error) {
-      console.error("Error fetching customers:", error);
+      console.error("Lỗi khi tải dữ liệu khách hàng:", error);
     }
   };
 
@@ -146,10 +146,10 @@ export default function LaundryOrder() {
       fetchLaundryOrders();
       setIsDeleteDialogOpen(false);
       setSelectedOrderId(null);
-      toast.success("Laundry order deleted successfully");
+      toast.success("Đã xóa đơn hàng giặt thành công");
     } catch (error) {
-      console.error("Error deleting laundry order:", error);
-      toast.error("Failed to delete laundry order");
+      console.error("Lỗi khi xóa đơn hàng giặt:", error);
+      toast.error("Không thể xóa đơn hàng giặt");
     }
     setDeleteLoading(false);
   };
@@ -179,28 +179,28 @@ export default function LaundryOrder() {
   // Helper functions for displaying related data
   const getServiceName = (serviceId: string) => {
     const service = services.find((s) => s._id === serviceId);
-    return service ? service.name : "Unknown Service";
+    return service ? service.name : "Dịch vụ không xác định";
   };
 
   const getGoodsName = (goodsId?: string) => {
     if (!goodsId) return "N/A";
     const item = goods.find((g) => g._id === goodsId);
-    return item ? item.name : "Unknown Item";
+    return item ? item.name : "Hàng hóa không xác định";
   };
 
   const getCustomerName = (customerId: string) => {
     const customer = customers.find((c) => c._id === customerId);
-    return customer ? customer.name : "Unknown Customer";
+    return customer ? customer.name : "Khách hàng không xác định";
   };
 
   const getStoreName = (storeId: string) => {
     const store = stores.find((s) => s._id === storeId);
-    return store ? store.name : "Unknown Store";
+    return store ? store.name : "Cửa hàng không xác định";
   };
 
   const getStaffName = (staffId: string) => {
     const staffMember = staff.find((s) => s._id === staffId);
-    return staffMember ? staffMember.name : "Unknown Staff";
+    return staffMember ? staffMember.name : "Nhân viên không xác định";
   };
 
   // Format currency
@@ -215,7 +215,7 @@ export default function LaundryOrder() {
   const columns: ColumnDef<LaundryOrderResponse>[] = [
     {
       accessorKey: "id_store",
-      header: "Store",
+      header: "Cửa Hàng",
       cell: ({ row }) => {
         const storeId = row.getValue("id_store") as string;
         return getStoreName(storeId);
@@ -223,7 +223,7 @@ export default function LaundryOrder() {
     },
     {
       accessorKey: "id_customer",
-      header: "Customer",
+      header: "Khách Hàng",
       cell: ({ row }) => {
         const customerId = row.getValue("id_customer") as string;
         return getCustomerName(customerId);
@@ -231,7 +231,7 @@ export default function LaundryOrder() {
     },
     {
       accessorKey: "id_staff",
-      header: "Staff",
+      header: "Nhân Viên",
       cell: ({ row }) => {
         const staffId = row.getValue("id_staff") as string;
         return getStaffName(staffId);
@@ -239,9 +239,20 @@ export default function LaundryOrder() {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng Thái",
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
+        const translatedStatus =
+          status === "Completed"
+            ? "Hoàn thành"
+            : status === "Processing"
+            ? "Đang xử lý"
+            : status === "Delivered"
+            ? "Đã giao"
+            : status === "Cancelled"
+            ? "Đã hủy"
+            : "Đang chờ";
+
         return (
           <div
             className={`px-2 py-1 rounded-full text-xs inline-flex items-center ${
@@ -256,14 +267,14 @@ export default function LaundryOrder() {
                 : "bg-yellow-100 text-yellow-800"
             }`}
           >
-            {status}
+            {translatedStatus}
           </div>
         );
       },
     },
     {
       accessorKey: "totalAmount",
-      header: "Total Amount",
+      header: "Tổng Tiền",
       cell: ({ row }) => {
         const amount = row.getValue("totalAmount") as number;
         return formatCurrency(amount);
@@ -271,7 +282,7 @@ export default function LaundryOrder() {
     },
     {
       accessorKey: "amountPaid",
-      header: "Amount Paid",
+      header: "Đã Thanh Toán",
       cell: ({ row }) => {
         const amount = row.getValue("amountPaid") as number;
         return formatCurrency(amount);
@@ -279,7 +290,7 @@ export default function LaundryOrder() {
     },
     {
       accessorKey: "receivedDate",
-      header: "Received Date",
+      header: "Ngày Nhận",
       cell: ({ row }) => {
         const date = row.getValue("receivedDate") as string;
         return format(new Date(date), "dd/MM/yyyy");
@@ -287,7 +298,7 @@ export default function LaundryOrder() {
     },
     {
       accessorKey: "returnedDate",
-      header: "Return Date",
+      header: "Ngày Trả",
       cell: ({ row }) => {
         const date = row.getValue("returnedDate") as string | undefined;
         return date ? format(new Date(date), "dd/MM/yyyy") : "—";
@@ -295,7 +306,7 @@ export default function LaundryOrder() {
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao Tác",
       cell: ({ row }) => {
         const order = row.original;
         return (
@@ -305,7 +316,7 @@ export default function LaundryOrder() {
               size="icon"
               className="h-8 w-8"
               onClick={() => handleViewOrderDetails(order._id)}
-              title="View Details"
+              title="Xem Chi Tiết"
             >
               <Eye className="h-4 w-4" />
             </Button>
@@ -318,16 +329,16 @@ export default function LaundryOrder() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Laundry Orders</h1>
+        <h1 className="text-2xl font-bold">Đơn Hàng Giặt</h1>
         <Button onClick={handleAddOrder} className="flex items-center gap-1">
           <PlusCircle size={16} />
-          <span>Add Order</span>
+          <span>Thêm Đơn Hàng</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading laundry orders...</p>
+          <p>Đang tải đơn hàng giặt...</p>
         </div>
       ) : (
         <div>
@@ -335,11 +346,11 @@ export default function LaundryOrder() {
             columns={columns}
             data={laundryOrders || []}
             searchColumn="id_service"
-            searchPlaceholder="Search by service ID..."
+            searchPlaceholder="Tìm kiếm theo mã dịch vụ..."
           />
           {laundryOrders?.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No laundry orders found
+              Không tìm thấy đơn hàng giặt
             </div>
           )}
         </div>
@@ -375,10 +386,10 @@ export default function LaundryOrder() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              laundry order.
+              Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn đơn
+              hàng giặt.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -388,14 +399,14 @@ export default function LaundryOrder() {
                 setSelectedOrderId(null);
               }}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

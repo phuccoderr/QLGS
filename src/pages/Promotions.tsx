@@ -41,7 +41,7 @@ export default function Promotions() {
       setPromotions(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching promotions:", error);
+      console.error("Lỗi khi tải dữ liệu khuyến mãi:", error);
       setLoading(false);
     }
   };
@@ -89,14 +89,14 @@ export default function Promotions() {
       setIsDeleteDialogOpen(false);
       setSelectedPromotionId(null);
     } catch (error) {
-      console.error("Error deleting promotion:", error);
+      console.error("Lỗi khi xóa khuyến mãi:", error);
     }
     setDeleteLoading(false);
   };
 
   // Format date string for display
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("vi-VN", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -107,11 +107,11 @@ export default function Promotions() {
   const columns: ColumnDef<PromotionResponse>[] = [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "Tên",
     },
     {
       accessorKey: "description",
-      header: "Description",
+      header: "Mô Tả",
       cell: ({ row }) => {
         const description = row.getValue("description") as string;
         // Truncate long descriptions
@@ -122,54 +122,59 @@ export default function Promotions() {
     },
     {
       accessorKey: "type",
-      header: "Type",
+      header: "Loại",
     },
     {
       accessorKey: "value",
-      header: "Value",
+      header: "Giá Trị",
       cell: ({ row }) => {
         const value = row.getValue("value") as number;
         const type = row.getValue("type") as string;
 
         return type === "Percentage"
           ? `${value}%`
-          : new Intl.NumberFormat("en-US", {
+          : new Intl.NumberFormat("vi-VN", {
               style: "currency",
-              currency: "USD",
+              currency: "VND",
             }).format(value);
       },
     },
     {
       accessorKey: "startDate",
-      header: "Start Date",
+      header: "Ngày Bắt Đầu",
       cell: ({ row }) => formatDate(row.getValue("startDate") as string),
     },
     {
       accessorKey: "endDate",
-      header: "End Date",
+      header: "Ngày Kết Thúc",
       cell: ({ row }) => formatDate(row.getValue("endDate") as string),
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng Thái",
       cell: ({ row }) => {
         const status = row.getValue("status") as boolean;
         return (
           <Badge variant={status ? "default" : "secondary"}>
-            {status ? "Active" : "Inactive"}
+            {status ? "Hoạt động" : "Không hoạt động"}
           </Badge>
         );
       },
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao Tác",
       cell: ({ row }) => {
         const promotion = row.original;
 
         return (
           <div className="flex space-x-2">
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              title="Xem chi tiết"
+            >
               <Eye className="h-4 w-4" />
             </Button>
             <Button
@@ -177,6 +182,7 @@ export default function Promotions() {
               size="icon"
               className="h-8 w-8"
               onClick={() => handleEditPromotion(promotion._id)}
+              title="Chỉnh sửa"
             >
               <Edit className="h-4 w-4" />
             </Button>
@@ -185,6 +191,7 @@ export default function Promotions() {
               size="icon"
               className="h-8 w-8 text-destructive"
               onClick={() => handleDeletePromotion(promotion._id)}
+              title="Xóa"
             >
               <Trash className="h-4 w-4" />
             </Button>
@@ -197,19 +204,19 @@ export default function Promotions() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Promotions</h1>
+        <h1 className="text-2xl font-bold">Khuyến Mãi</h1>
         <Button
           onClick={handleAddPromotion}
           className="flex items-center gap-1"
         >
           <PlusCircle size={16} />
-          <span>Add Promotion</span>
+          <span>Thêm Khuyến Mãi</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading promotions...</p>
+          <p>Đang tải dữ liệu khuyến mãi...</p>
         </div>
       ) : (
         <div>
@@ -217,11 +224,11 @@ export default function Promotions() {
             columns={columns}
             data={promotions || []}
             searchColumn="name"
-            searchPlaceholder="Search by promotion name..."
+            searchPlaceholder="Tìm kiếm theo tên khuyến mãi..."
           />
           {promotions.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No promotions found
+              Không tìm thấy khuyến mãi
             </div>
           )}
         </div>
@@ -246,10 +253,10 @@ export default function Promotions() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              promotion and all associated data.
+              Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn khuyến
+              mãi và tất cả dữ liệu liên quan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -259,14 +266,14 @@ export default function Promotions() {
                 setSelectedPromotionId(null);
               }}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

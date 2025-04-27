@@ -55,17 +55,17 @@ export function UpdateGoodsModal({
 
   // Category options
   const categoryOptions = [
-    "Food",
-    "Beverage",
-    "Electronics",
-    "Clothing",
-    "Cosmetics",
-    "Household",
-    "Other",
+    "Thực phẩm",
+    "Đồ uống",
+    "Điện tử",
+    "Quần áo",
+    "Mỹ phẩm",
+    "Đồ gia dụng",
+    "Khác",
   ];
 
   // Unit options
-  const unitOptions = ["piece", "kg", "liter", "box", "pack", "set"];
+  const unitOptions = ["cái", "kg", "lít", "hộp", "gói", "bộ"];
 
   // Fetch goods data and stores when modal opens and goodsId changes
   useEffect(() => {
@@ -100,7 +100,7 @@ export function UpdateGoodsModal({
       setFetchLoading(false);
     } catch (error) {
       console.error("Error fetching goods data:", error);
-      setError("Failed to load goods data. Please try again.");
+      setError("Không thể tải dữ liệu hàng hóa. Vui lòng thử lại.");
       setFetchLoading(false);
     }
   };
@@ -112,7 +112,7 @@ export function UpdateGoodsModal({
       setStores(data);
     } catch (error) {
       console.error("Error fetching stores:", error);
-      setError("Failed to load stores. Please try again.");
+      setError("Không thể tải danh sách cửa hàng. Vui lòng thử lại.");
     }
     setStoresLoading(false);
   };
@@ -161,32 +161,32 @@ export function UpdateGoodsModal({
 
     // Validate required fields if they're being updated
     if (formData.name !== undefined && !formData.name.trim()) {
-      setError("Name is required");
+      setError("Tên là bắt buộc");
       return;
     }
 
     if (formData.category !== undefined && !formData.category.trim()) {
-      setError("Category is required");
+      setError("Danh mục là bắt buộc");
       return;
     }
 
     if (formData.quantity !== undefined && formData.quantity <= 0) {
-      setError("Quantity must be greater than zero");
+      setError("Số lượng phải lớn hơn không");
       return;
     }
 
     if (formData.price !== undefined && formData.price <= 0) {
-      setError("Price must be greater than zero");
+      setError("Giá tiền phải lớn hơn không");
       return;
     }
 
     if (formData.unit !== undefined && !formData.unit.trim()) {
-      setError("Unit is required");
+      setError("Đơn vị là bắt buộc");
       return;
     }
 
     if (!goodsId) {
-      setError("Goods ID is missing");
+      setError("Thiếu mã hàng hóa");
       return;
     }
 
@@ -201,10 +201,10 @@ export function UpdateGoodsModal({
       setLoading(false);
       onSuccess();
       onClose();
-      toast.success("Goods updated successfully!");
+      toast.success("Cập nhật hàng hóa thành công!");
     } catch (error) {
       console.error("Error updating goods:", error);
-      setError("Failed to update goods. Please try again.");
+      setError("Không thể cập nhật hàng hóa. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -213,20 +213,20 @@ export function UpdateGoodsModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         {fetchLoading ? (
-          <div className="py-6 text-center">Loading goods data...</div>
+          <div className="py-6 text-center">Đang tải dữ liệu hàng hóa...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             <DialogHeader>
-              <DialogTitle>Update Goods</DialogTitle>
+              <DialogTitle>Cập Nhật Hàng Hóa</DialogTitle>
               <DialogDescription>
-                Update the details for this goods item. Fields marked with * are
-                required.
+                Cập nhật thông tin cho mặt hàng này. Các trường có dấu * là bắt
+                buộc.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
-                  Name *
+                  Tên *
                 </Label>
                 <Input
                   id="name"
@@ -239,7 +239,7 @@ export function UpdateGoodsModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="category" className="text-right">
-                  Category *
+                  Danh Mục *
                 </Label>
                 <Select
                   value={formData.category}
@@ -248,7 +248,7 @@ export function UpdateGoodsModal({
                   }
                 >
                   <SelectTrigger className="col-span-3 w-full">
-                    <SelectValue placeholder="Select a category" />
+                    <SelectValue placeholder="Chọn danh mục" />
                   </SelectTrigger>
                   <SelectContent>
                     {categoryOptions.map((category) => (
@@ -261,7 +261,7 @@ export function UpdateGoodsModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="quantity" className="text-right">
-                  Quantity *
+                  Số Lượng *
                 </Label>
                 <Input
                   id="quantity"
@@ -277,7 +277,7 @@ export function UpdateGoodsModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="price" className="text-right">
-                  Price *
+                  Giá Tiền *
                 </Label>
                 <Input
                   id="price"
@@ -293,14 +293,14 @@ export function UpdateGoodsModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="unit" className="text-right">
-                  Unit *
+                  Đơn Vị *
                 </Label>
                 <Select
                   value={formData.unit || ""}
                   onValueChange={(value) => handleSelectChange("unit", value)}
                 >
                   <SelectTrigger className="col-span-3 w-full">
-                    <SelectValue placeholder="Select a unit" />
+                    <SelectValue placeholder="Chọn đơn vị" />
                   </SelectTrigger>
                   <SelectContent>
                     {unitOptions.map((unit) => (
@@ -313,7 +313,7 @@ export function UpdateGoodsModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="expiryDate" className="text-right">
-                  Expiry Date
+                  Ngày Hết Hạn
                 </Label>
                 <Input
                   id="expiryDate"
@@ -332,7 +332,7 @@ export function UpdateGoodsModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="id_store" className="text-right">
-                  Store
+                  Cửa Hàng
                 </Label>
                 <Select
                   value={formData.id_store || ""}
@@ -342,7 +342,7 @@ export function UpdateGoodsModal({
                   disabled={storesLoading}
                 >
                   <SelectTrigger className="col-span-3 w-full">
-                    <SelectValue placeholder="Select a store (optional)" />
+                    <SelectValue placeholder="Chọn cửa hàng (tùy chọn)" />
                   </SelectTrigger>
                   <SelectContent>
                     {stores.map((store) => (
@@ -355,7 +355,7 @@ export function UpdateGoodsModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="status" className="text-right">
-                  Status
+                  Trạng Thái
                 </Label>
                 <div className="flex items-center space-x-2 col-span-3">
                   <Switch
@@ -364,7 +364,7 @@ export function UpdateGoodsModal({
                     onCheckedChange={handleSwitchChange}
                   />
                   <Label htmlFor="status" className="cursor-pointer">
-                    {formData.status ? "Active" : "Inactive"}
+                    {formData.status ? "Hoạt Động" : "Không Hoạt Động"}
                   </Label>
                 </div>
               </div>
@@ -372,10 +372,10 @@ export function UpdateGoodsModal({
             {error && <p className="text-sm text-destructive mb-4">{error}</p>}
             <DialogFooter>
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                Hủy
               </Button>
               <Button type="submit" disabled={loading}>
-                {loading ? "Saving..." : "Save changes"}
+                {loading ? "Đang Lưu..." : "Lưu Thay Đổi"}
               </Button>
             </DialogFooter>
           </form>

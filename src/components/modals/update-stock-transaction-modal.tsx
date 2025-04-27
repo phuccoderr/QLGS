@@ -76,8 +76,8 @@ export function UpdateStockTransactionModal({
       setStores(storesData);
       setSuppliers(suppliersData);
     } catch (error) {
-      console.error("Error fetching reference data:", error);
-      setError("Failed to load reference data. Please try again.");
+      console.error("Lỗi khi tải dữ liệu tham chiếu:", error);
+      setError("Không thể tải dữ liệu tham chiếu. Vui lòng thử lại.");
     }
     setDataLoading(false);
   };
@@ -101,8 +101,8 @@ export function UpdateStockTransactionModal({
         date: new Date(data.date),
       });
     } catch (error) {
-      console.error("Error fetching transaction:", error);
-      setError("Failed to load transaction data. Please try again.");
+      console.error("Lỗi khi tải dữ liệu giao dịch:", error);
+      setError("Không thể tải dữ liệu giao dịch. Vui lòng thử lại.");
       onClose(); // Close modal on error
     }
     setFetchLoading(false);
@@ -131,13 +131,13 @@ export function UpdateStockTransactionModal({
     let hasError = false;
 
     if (formData.type === "Nhap" && formData.id_supplier === "") {
-      setError("Please select a supplier for incoming transactions");
+      setError("Vui lòng chọn nhà cung cấp cho giao dịch nhập kho");
       hasError = true;
     } else if (formData.quantity !== undefined && formData.quantity <= 0) {
-      setError("Quantity must be greater than 0");
+      setError("Số lượng phải lớn hơn 0");
       hasError = true;
     } else if (formData.price !== undefined && formData.price < 0) {
-      setError("Price cannot be negative");
+      setError("Giá không thể âm");
       hasError = true;
     }
 
@@ -200,10 +200,10 @@ export function UpdateStockTransactionModal({
       setLoading(false);
       onSuccess();
       onClose();
-      toast.success("Stock transaction updated successfully!");
+      toast.success("Cập nhật giao dịch kho thành công!");
     } catch (error) {
-      console.error("Error updating stock transaction:", error);
-      setError("Failed to update stock transaction. Please try again.");
+      console.error("Lỗi khi cập nhật giao dịch kho:", error);
+      setError("Không thể cập nhật giao dịch kho. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -212,20 +212,19 @@ export function UpdateStockTransactionModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         {fetchLoading ? (
-          <div className="p-6 text-center">Loading transaction data...</div>
+          <div className="p-6 text-center">Đang tải dữ liệu giao dịch...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             <DialogHeader>
-              <DialogTitle>Update Stock Transaction</DialogTitle>
+              <DialogTitle>Cập Nhật Giao Dịch Kho</DialogTitle>
               <DialogDescription>
-                Update the details for this stock transaction. Click save when
-                you're done.
+                Cập nhật thông tin cho giao dịch kho này. Nhấn lưu khi hoàn tất.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="type" className="text-right">
-                  Transaction Type
+                  Loại Giao Dịch
                 </Label>
                 <select
                   id="type"
@@ -235,14 +234,14 @@ export function UpdateStockTransactionModal({
                   className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   required
                 >
-                  <option value="Nhap">Incoming (Nhap)</option>
-                  <option value="Xuat">Outgoing (Xuat)</option>
+                  <option value="Nhap">Nhập Kho</option>
+                  <option value="Xuat">Xuất Kho</option>
                 </select>
               </div>
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="id_goods" className="text-right">
-                  Goods
+                  Hàng Hóa
                 </Label>
                 <select
                   id="id_goods"
@@ -253,7 +252,7 @@ export function UpdateStockTransactionModal({
                   disabled={dataLoading}
                   required
                 >
-                  <option value="">Select Goods</option>
+                  <option value="">Chọn Hàng Hóa</option>
                   {goods.map((item) => (
                     <option key={item._id} value={item._id}>
                       {item.name}
@@ -264,7 +263,7 @@ export function UpdateStockTransactionModal({
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="id_store" className="text-right">
-                  Store
+                  Cửa Hàng
                 </Label>
                 <select
                   id="id_store"
@@ -275,7 +274,7 @@ export function UpdateStockTransactionModal({
                   disabled={dataLoading}
                   required
                 >
-                  <option value="">Select Store</option>
+                  <option value="">Chọn Cửa Hàng</option>
                   {stores.map((store) => (
                     <option key={store._id} value={store._id}>
                       {store.name}
@@ -287,7 +286,7 @@ export function UpdateStockTransactionModal({
               {(formData.type === "Nhap" || formData.id_supplier) && (
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="id_supplier" className="text-right">
-                    Supplier
+                    Nhà Cung Cấp
                   </Label>
                   <select
                     id="id_supplier"
@@ -298,7 +297,7 @@ export function UpdateStockTransactionModal({
                     disabled={dataLoading}
                     required={formData.type === "Nhap"}
                   >
-                    <option value="">Select Supplier</option>
+                    <option value="">Chọn Nhà Cung Cấp</option>
                     {suppliers.map((supplier) => (
                       <option key={supplier._id} value={supplier._id}>
                         {supplier.name}
@@ -310,7 +309,7 @@ export function UpdateStockTransactionModal({
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="quantity" className="text-right">
-                  Quantity
+                  Số Lượng
                 </Label>
                 <Input
                   id="quantity"
@@ -326,7 +325,7 @@ export function UpdateStockTransactionModal({
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="price" className="text-right">
-                  Price
+                  Giá
                 </Label>
                 <Input
                   id="price"
@@ -343,7 +342,7 @@ export function UpdateStockTransactionModal({
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="date" className="text-right">
-                  Transaction Date
+                  Ngày Giao Dịch
                 </Label>
                 <Input
                   id="date"
@@ -361,10 +360,10 @@ export function UpdateStockTransactionModal({
 
             <DialogFooter>
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                Hủy
               </Button>
               <Button type="submit" disabled={loading || fetchLoading}>
-                {loading ? "Updating..." : "Update Transaction"}
+                {loading ? "Đang Cập Nhật..." : "Cập Nhật Giao Dịch"}
               </Button>
             </DialogFooter>
           </form>

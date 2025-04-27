@@ -69,7 +69,7 @@ export function CreateStaffModal({
       setStores(data);
     } catch (error) {
       console.error("Error fetching stores:", error);
-      setError("Failed to load stores. Please try again.");
+      setError("Không thể tải danh sách cửa hàng. Vui lòng thử lại.");
     }
     setStoresLoading(false);
   };
@@ -126,37 +126,37 @@ export function CreateStaffModal({
 
     // Validate required fields
     if (!formData.name?.trim()) {
-      setError("Name is required");
+      setError("Tên là bắt buộc");
       return;
     }
 
     if (!formData.id_store?.trim()) {
-      setError("Store is required");
+      setError("Cửa hàng là bắt buộc");
       return;
     }
 
     if (!formData.email?.trim()) {
-      setError("Email is required");
+      setError("Email là bắt buộc");
       return;
     }
 
     if (!validateEmail(formData.email)) {
-      setError("Please enter a valid email address");
+      setError("Vui lòng nhập địa chỉ email hợp lệ");
       return;
     }
 
     if (!formData.phoneNumber?.trim()) {
-      setError("Phone number is required");
+      setError("Số điện thoại là bắt buộc");
       return;
     }
 
     if (!formData.password?.trim()) {
-      setError("Password is required");
+      setError("Mật khẩu là bắt buộc");
       return;
     }
 
     if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long");
+      setError("Mật khẩu phải có ít nhất 6 ký tự");
       return;
     }
 
@@ -175,10 +175,10 @@ export function CreateStaffModal({
       resetForm();
       onSuccess();
       onClose();
-      toast.success("Staff member created successfully!");
+      toast.success("Nhân viên đã được tạo thành công!");
     } catch (error) {
       console.error("Error creating staff member:", error);
-      setError("Failed to create staff member. Please try again.");
+      setError("Không thể tạo nhân viên. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -188,15 +188,15 @@ export function CreateStaffModal({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Staff Member</DialogTitle>
+            <DialogTitle>Thêm Nhân Viên Mới</DialogTitle>
             <DialogDescription>
-              Create a new staff record. Fields marked with * are required.
+              Tạo hồ sơ nhân viên mới. Các trường đánh dấu * là bắt buộc.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Name *
+                Tên *
               </Label>
               <Input
                 id="name"
@@ -209,7 +209,7 @@ export function CreateStaffModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_store" className="text-right">
-                Store *
+                Cửa Hàng *
               </Label>
               <Select
                 value={formData.id_store}
@@ -217,7 +217,7 @@ export function CreateStaffModal({
                 disabled={storesLoading}
               >
                 <SelectTrigger className="col-span-3 w-full">
-                  <SelectValue placeholder="Select a store" />
+                  <SelectValue placeholder="Chọn cửa hàng" />
                 </SelectTrigger>
                 <SelectContent>
                   {stores.map((store) => (
@@ -244,7 +244,7 @@ export function CreateStaffModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="phoneNumber" className="text-right">
-                Phone *
+                Điện Thoại *
               </Label>
               <Input
                 id="phoneNumber"
@@ -257,7 +257,7 @@ export function CreateStaffModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="role" className="text-right">
-                Role
+                Vai Trò
               </Label>
               <Select
                 value={formData.role}
@@ -266,7 +266,7 @@ export function CreateStaffModal({
                 }
               >
                 <SelectTrigger className="col-span-3 w-full">
-                  <SelectValue placeholder="Select a role" />
+                  <SelectValue placeholder="Chọn vai trò" />
                 </SelectTrigger>
                 <SelectContent>
                   {roleOptions.map((role) => (
@@ -279,7 +279,7 @@ export function CreateStaffModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="password" className="text-right">
-                Password *
+                Mật Khẩu *
               </Label>
               <div className="col-span-3 relative">
                 <Input
@@ -299,13 +299,13 @@ export function CreateStaffModal({
                   className="absolute right-0 top-0 h-full px-3"
                   onClick={togglePasswordVisibility}
                 >
-                  {passwordVisible ? "Hide" : "Show"}
+                  {passwordVisible ? "Ẩn" : "Hiện"}
                 </Button>
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="status" className="text-right">
-                Status
+                Trạng Thái
               </Label>
               <div className="flex items-center space-x-2 col-span-3">
                 <Switch
@@ -314,7 +314,7 @@ export function CreateStaffModal({
                   onCheckedChange={handleSwitchChange}
                 />
                 <Label htmlFor="status" className="cursor-pointer">
-                  {formData.status ? "Active" : "Inactive"}
+                  {formData.status ? "Hoạt Động" : "Không Hoạt Động"}
                 </Label>
               </div>
             </div>
@@ -322,10 +322,10 @@ export function CreateStaffModal({
           {error && <p className="text-sm text-destructive mb-4">{error}</p>}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Hủy
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? "Creating..." : "Create"}
+              {loading ? "Đang Tạo..." : "Tạo"}
             </Button>
           </DialogFooter>
         </form>

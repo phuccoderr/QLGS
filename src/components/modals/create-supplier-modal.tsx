@@ -71,12 +71,12 @@ export function CreateSupplierModal({
 
     // Validate required fields
     if (!formData.name?.trim()) {
-      setError("Name is required");
+      setError("Tên là bắt buộc");
       return;
     }
 
     if (!formData.id_store) {
-      setError("Store is required");
+      setError("Cửa hàng là bắt buộc");
       return;
     }
 
@@ -89,10 +89,10 @@ export function CreateSupplierModal({
       resetForm();
       onSuccess();
       onClose();
-      toast.success("Supplier created successfully!");
+      toast.success("Nhà cung cấp đã được tạo thành công!");
     } catch (error) {
       console.error("Error creating supplier:", error);
-      setError("Failed to create supplier. Please try again.");
+      setError("Không thể tạo nhà cung cấp. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -102,15 +102,15 @@ export function CreateSupplierModal({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Supplier</DialogTitle>
+            <DialogTitle>Thêm Nhà Cung Cấp Mới</DialogTitle>
             <DialogDescription>
-              Create a new supplier record. Fill out the information below.
+              Tạo hồ sơ nhà cung cấp mới. Điền thông tin bên dưới.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_store" className="text-right">
-                Store
+                Cửa Hàng
               </Label>
               <select
                 id="id_store"
@@ -120,7 +120,7 @@ export function CreateSupplierModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 required
               >
-                <option value="">Select a store</option>
+                <option value="">Chọn cửa hàng</option>
                 {stores.map((store) => (
                   <option key={store._id} value={store._id}>
                     {store.name}
@@ -130,7 +130,7 @@ export function CreateSupplierModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Name
+                Tên
               </Label>
               <Input
                 id="name"
@@ -143,7 +143,7 @@ export function CreateSupplierModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="phone" className="text-right">
-                Phone
+                Điện Thoại
               </Label>
               <Input
                 id="phone"
@@ -151,12 +151,12 @@ export function CreateSupplierModal({
                 value={formData.phone || ""}
                 onChange={handleChange}
                 className="col-span-3"
-                placeholder="Optional"
+                placeholder="Tùy chọn"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="address" className="text-right">
-                Address
+                Địa Chỉ
               </Label>
               <Input
                 id="address"
@@ -164,17 +164,17 @@ export function CreateSupplierModal({
                 value={formData.address || ""}
                 onChange={handleChange}
                 className="col-span-3"
-                placeholder="Optional"
+                placeholder="Tùy chọn"
               />
             </div>
           </div>
           {error && <p className="text-sm text-destructive mb-4">{error}</p>}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Hủy
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? "Creating..." : "Create"}
+              {loading ? "Đang Tạo..." : "Tạo"}
             </Button>
           </DialogFooter>
         </form>

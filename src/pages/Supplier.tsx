@@ -45,8 +45,8 @@ export default function Supplier() {
       setSuppliers(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching suppliers:", error);
-      toast.error("Failed to load suppliers");
+      console.error("Lỗi khi tải dữ liệu nhà cung cấp:", error);
+      toast.error("Không thể tải dữ liệu nhà cung cấp");
       setLoading(false);
     }
   };
@@ -56,8 +56,8 @@ export default function Supplier() {
       const data = await getAllStore();
       setStores(data);
     } catch (error) {
-      console.error("Error fetching stores:", error);
-      toast.error("Failed to load stores");
+      console.error("Lỗi khi tải dữ liệu cửa hàng:", error);
+      toast.error("Không thể tải dữ liệu cửa hàng");
     }
   };
 
@@ -84,10 +84,10 @@ export default function Supplier() {
       fetchSuppliers();
       setIsDeleteDialogOpen(false);
       setSelectedSupplierId(null);
-      toast.success("Supplier deleted successfully");
+      toast.success("Đã xóa nhà cung cấp thành công");
     } catch (error) {
-      console.error("Error deleting supplier:", error);
-      toast.error("Failed to delete supplier");
+      console.error("Lỗi khi xóa nhà cung cấp:", error);
+      toast.error("Không thể xóa nhà cung cấp");
     }
     setDeleteLoading(false);
   };
@@ -112,18 +112,18 @@ export default function Supplier() {
   // Helper function to get store name by ID
   const getStoreName = (storeId: string) => {
     const store = stores.find((s) => s._id === storeId);
-    return store ? store.name : "Unknown Store";
+    return store ? store.name : "Cửa hàng không xác định";
   };
 
   // Define columns for supplier table
   const columns: ColumnDef<SupplierResponse>[] = [
     {
       accessorKey: "name",
-      header: "Name",
+      header: "Tên",
     },
     {
       accessorKey: "phone",
-      header: "Phone",
+      header: "Điện Thoại",
       cell: ({ row }) => {
         const phone = row.getValue("phone") as string;
         return phone || "N/A";
@@ -131,7 +131,7 @@ export default function Supplier() {
     },
     {
       accessorKey: "address",
-      header: "Address",
+      header: "Địa Chỉ",
       cell: ({ row }) => {
         const address = row.getValue("address") as string;
         if (!address) return "N/A";
@@ -141,7 +141,7 @@ export default function Supplier() {
     },
     {
       accessorKey: "id_store",
-      header: "Store",
+      header: "Cửa Hàng",
       cell: ({ row }) => {
         const storeId = row.getValue("id_store") as string;
         return getStoreName(storeId);
@@ -149,7 +149,7 @@ export default function Supplier() {
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao Tác",
       cell: ({ row }) => {
         const supplier = row.original;
 
@@ -160,6 +160,7 @@ export default function Supplier() {
               size="icon"
               className="h-8 w-8"
               onClick={() => handleEditSupplier(supplier._id)}
+              title="Chỉnh sửa"
             >
               <Edit className="h-4 w-4" />
             </Button>
@@ -168,6 +169,7 @@ export default function Supplier() {
               size="icon"
               className="h-8 w-8 text-destructive"
               onClick={() => handleDeleteSupplier(supplier._id)}
+              title="Xóa"
             >
               <Trash className="h-4 w-4" />
             </Button>
@@ -180,16 +182,16 @@ export default function Supplier() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Suppliers</h1>
+        <h1 className="text-2xl font-bold">Nhà Cung Cấp</h1>
         <Button onClick={handleAddSupplier} className="flex items-center gap-1">
           <PlusCircle size={16} />
-          <span>Add Supplier</span>
+          <span>Thêm Nhà Cung Cấp</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading suppliers...</p>
+          <p>Đang tải dữ liệu nhà cung cấp...</p>
         </div>
       ) : (
         <div>
@@ -197,11 +199,11 @@ export default function Supplier() {
             columns={columns}
             data={suppliers || []}
             searchColumn="name"
-            searchPlaceholder="Search by name..."
+            searchPlaceholder="Tìm kiếm theo tên..."
           />
           {suppliers.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No suppliers found
+              Không tìm thấy nhà cung cấp
             </div>
           )}
         </div>
@@ -228,10 +230,10 @@ export default function Supplier() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              supplier and remove it from the system.
+              Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn nhà
+              cung cấp và loại bỏ nó khỏi hệ thống.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -241,14 +243,14 @@ export default function Supplier() {
                 setSelectedSupplierId(null);
               }}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

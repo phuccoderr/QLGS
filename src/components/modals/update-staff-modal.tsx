@@ -91,8 +91,8 @@ export function UpdateStaffModal({
 
       setFetchLoading(false);
     } catch (error) {
-      console.error("Error fetching staff data:", error);
-      setError("Failed to load staff data. Please try again.");
+      console.error("Lỗi khi tải dữ liệu nhân viên:", error);
+      setError("Không thể tải dữ liệu nhân viên. Vui lòng thử lại.");
       setFetchLoading(false);
     }
   };
@@ -103,8 +103,8 @@ export function UpdateStaffModal({
       const data = await getAllStore();
       setStores(data);
     } catch (error) {
-      console.error("Error fetching stores:", error);
-      setError("Failed to load stores. Please try again.");
+      console.error("Lỗi khi tải danh sách cửa hàng:", error);
+      setError("Không thể tải danh sách cửa hàng. Vui lòng thử lại.");
     }
     setStoresLoading(false);
   };
@@ -126,7 +126,7 @@ export function UpdateStaffModal({
       if (value.length >= 6 || value.length === 0) {
         setPasswordError("");
       } else {
-        setPasswordError("Password must be at least 6 characters long");
+        setPasswordError("Mật khẩu phải có ít nhất 6 ký tự");
       }
 
       // Track if password has been modified
@@ -161,38 +161,38 @@ export function UpdateStaffModal({
 
     // Validate required fields
     if (!formData.name?.trim()) {
-      setError("Name is required");
+      setError("Tên là bắt buộc");
       return;
     }
 
     if (!formData.id_store?.trim()) {
-      setError("Store is required");
+      setError("Cửa hàng là bắt buộc");
       return;
     }
 
     if (!formData.email?.trim()) {
-      setError("Email is required");
+      setError("Email là bắt buộc");
       return;
     }
 
     if (!validateEmail(formData.email)) {
-      setError("Please enter a valid email address");
+      setError("Vui lòng nhập địa chỉ email hợp lệ");
       return;
     }
 
     if (!formData.phoneNumber?.trim()) {
-      setError("Phone number is required");
+      setError("Số điện thoại là bắt buộc");
       return;
     }
 
     // Validate password only if it's been changed
     if (isPasswordDirty && formData.password && formData.password.length < 6) {
-      setPasswordError("Password must be at least 6 characters long");
+      setPasswordError("Mật khẩu phải có ít nhất 6 ký tự");
       return;
     }
 
     if (!staffId) {
-      setError("Staff ID is missing");
+      setError("Thiếu mã nhân viên");
       return;
     }
 
@@ -223,10 +223,10 @@ export function UpdateStaffModal({
       setLoading(false);
       onSuccess();
       onClose();
-      toast.success("Staff member updated successfully!");
+      toast.success("Cập nhật nhân viên thành công!");
     } catch (error) {
-      console.error("Error updating staff member:", error);
-      setError("Failed to update staff member. Please try again.");
+      console.error("Lỗi khi cập nhật nhân viên:", error);
+      setError("Không thể cập nhật nhân viên. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -235,20 +235,20 @@ export function UpdateStaffModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         {fetchLoading ? (
-          <div className="py-6 text-center">Loading staff data...</div>
+          <div className="py-6 text-center">Đang tải dữ liệu nhân viên...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             <DialogHeader>
-              <DialogTitle>Update Staff Member</DialogTitle>
+              <DialogTitle>Cập Nhật Nhân Viên</DialogTitle>
               <DialogDescription>
-                Update the details for this staff member. Fields marked with *
-                are required.
+                Cập nhật thông tin cho nhân viên này. Các trường có dấu * là bắt
+                buộc.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
-                  Name *
+                  Tên *
                 </Label>
                 <Input
                   id="name"
@@ -261,7 +261,7 @@ export function UpdateStaffModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="id_store" className="text-right">
-                  Store *
+                  Cửa Hàng *
                 </Label>
                 <Select
                   value={formData.id_store}
@@ -271,7 +271,7 @@ export function UpdateStaffModal({
                   disabled={storesLoading}
                 >
                   <SelectTrigger className="col-span-3 w-full">
-                    <SelectValue placeholder="Select a store" />
+                    <SelectValue placeholder="Chọn cửa hàng" />
                   </SelectTrigger>
                   <SelectContent>
                     {stores.map((store) => (
@@ -298,7 +298,7 @@ export function UpdateStaffModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="phoneNumber" className="text-right">
-                  Phone *
+                  Điện Thoại *
                 </Label>
                 <Input
                   id="phoneNumber"
@@ -311,7 +311,7 @@ export function UpdateStaffModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="role" className="text-right">
-                  Role
+                  Vai Trò
                 </Label>
                 <Select
                   value={formData.role || "STAFF"}
@@ -320,12 +320,12 @@ export function UpdateStaffModal({
                   }}
                 >
                   <SelectTrigger className="col-span-3 w-full">
-                    <SelectValue placeholder="Select a role" />
+                    <SelectValue placeholder="Chọn vai trò" />
                   </SelectTrigger>
                   <SelectContent>
                     {roleOptions.map((role) => (
                       <SelectItem key={role} value={role}>
-                        {role}
+                        {role === "STAFF" ? "Nhân Viên" : "Quản Lý"}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -333,7 +333,7 @@ export function UpdateStaffModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="password" className="text-right">
-                  Password
+                  Mật Khẩu
                 </Label>
                 <div className="col-span-3 relative">
                   <Input
@@ -347,7 +347,7 @@ export function UpdateStaffModal({
                         ? "border-red-500 focus-visible:ring-red-500"
                         : ""
                     } pr-10`}
-                    placeholder="Leave blank to keep current password"
+                    placeholder="Để trống để giữ mật khẩu hiện tại"
                     minLength={6}
                   />
                   <Button
@@ -357,7 +357,7 @@ export function UpdateStaffModal({
                     className="absolute right-0 top-0 h-full px-3"
                     onClick={togglePasswordVisibility}
                   >
-                    {passwordVisible ? "Hide" : "Show"}
+                    {passwordVisible ? "Ẩn" : "Hiện"}
                   </Button>
                 </div>
                 {passwordError && (
@@ -366,7 +366,7 @@ export function UpdateStaffModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="status" className="text-right">
-                  Status
+                  Trạng Thái
                 </Label>
                 <div className="flex items-center space-x-2 col-span-3">
                   <Switch
@@ -375,7 +375,7 @@ export function UpdateStaffModal({
                     onCheckedChange={handleSwitchChange}
                   />
                   <Label htmlFor="status" className="cursor-pointer">
-                    {formData.status ? "Active" : "Inactive"}
+                    {formData.status ? "Hoạt Động" : "Không Hoạt Động"}
                   </Label>
                 </div>
               </div>
@@ -383,10 +383,10 @@ export function UpdateStaffModal({
             {error && <p className="text-sm text-destructive mb-4">{error}</p>}
             <DialogFooter>
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                Hủy
               </Button>
               <Button type="submit" disabled={loading}>
-                {loading ? "Saving..." : "Save changes"}
+                {loading ? "Đang Lưu..." : "Lưu Thay Đổi"}
               </Button>
             </DialogFooter>
           </form>

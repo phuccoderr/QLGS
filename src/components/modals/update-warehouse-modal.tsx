@@ -80,8 +80,8 @@ export function UpdateWarehouseModal({
       });
       setFetchLoading(false);
     } catch (error) {
-      console.error("Error fetching warehouse data:", error);
-      setError("Failed to load warehouse data. Please try again.");
+      console.error("Lỗi khi tải dữ liệu kho hàng:", error);
+      setError("Không thể tải dữ liệu kho hàng. Vui lòng thử lại.");
       setFetchLoading(false);
     }
   };
@@ -123,7 +123,7 @@ export function UpdateWarehouseModal({
 
     // Validate quantity if it's being updated
     if (formData.quantity !== undefined && formData.quantity < 0) {
-      setError("Quantity cannot be negative");
+      setError("Số lượng không thể âm");
       return;
     }
 
@@ -147,10 +147,10 @@ export function UpdateWarehouseModal({
       setLoading(false);
       onSuccess();
       onClose();
-      toast.success("Warehouse record updated successfully!");
+      toast.success("Cập nhật kho hàng thành công!");
     } catch (error) {
-      console.error("Error updating warehouse record:", error);
-      setError("Failed to update warehouse record. Please try again.");
+      console.error("Lỗi khi cập nhật kho hàng:", error);
+      setError("Không thể cập nhật kho hàng. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -160,21 +160,21 @@ export function UpdateWarehouseModal({
       <DialogContent className="sm:max-w-[425px]">
         {fetchLoading ? (
           <div className="flex items-center justify-center py-6">
-            <p>Loading warehouse data...</p>
+            <p>Đang tải dữ liệu kho hàng...</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
             <DialogHeader>
-              <DialogTitle>Update Warehouse Record</DialogTitle>
+              <DialogTitle>Cập Nhật Kho Hàng</DialogTitle>
               <DialogDescription>
-                Update the warehouse inventory record. Leave fields unchanged if
-                you don't want to update them.
+                Cập nhật thông tin kho hàng. Giữ nguyên các trường nếu bạn không
+                muốn cập nhật chúng.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="id_store" className="text-right">
-                  Store
+                  Cửa Hàng
                 </Label>
                 <Select
                   value={formData.id_store}
@@ -183,7 +183,7 @@ export function UpdateWarehouseModal({
                   }
                 >
                   <SelectTrigger className="col-span-3 w-full">
-                    <SelectValue placeholder="Select a store" />
+                    <SelectValue placeholder="Chọn cửa hàng" />
                   </SelectTrigger>
                   <SelectContent>
                     {stores.map((store) => (
@@ -196,7 +196,7 @@ export function UpdateWarehouseModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="id_goods" className="text-right">
-                  Goods
+                  Hàng Hóa
                 </Label>
                 <Select
                   value={formData.id_goods}
@@ -205,7 +205,7 @@ export function UpdateWarehouseModal({
                   }
                 >
                   <SelectTrigger className="col-span-3 w-full">
-                    <SelectValue placeholder="Select a goods item" />
+                    <SelectValue placeholder="Chọn mặt hàng" />
                   </SelectTrigger>
                   <SelectContent>
                     {goods.map((item) => (
@@ -218,7 +218,7 @@ export function UpdateWarehouseModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="quantity" className="text-right">
-                  Quantity
+                  Số Lượng
                 </Label>
                 <Input
                   id="quantity"
@@ -233,7 +233,7 @@ export function UpdateWarehouseModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="status" className="text-right">
-                  Status
+                  Trạng Thái
                 </Label>
                 <div className="flex items-center space-x-2 col-span-3">
                   <Switch
@@ -242,7 +242,7 @@ export function UpdateWarehouseModal({
                     onCheckedChange={handleSwitchChange}
                   />
                   <Label htmlFor="status" className="cursor-pointer">
-                    {formData.status ? "Active" : "Inactive"}
+                    {formData.status ? "Hoạt Động" : "Không Hoạt Động"}
                   </Label>
                 </div>
               </div>
@@ -250,10 +250,10 @@ export function UpdateWarehouseModal({
             {error && <p className="text-sm text-destructive mb-4">{error}</p>}
             <DialogFooter>
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                Hủy
               </Button>
               <Button type="submit" disabled={loading}>
-                {loading ? "Updating..." : "Update"}
+                {loading ? "Đang Cập Nhật..." : "Cập Nhật"}
               </Button>
             </DialogFooter>
           </form>

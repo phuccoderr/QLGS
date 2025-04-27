@@ -58,7 +58,7 @@ export function DetailLaundryOrderModal({
       setOrder(data);
     } catch (error) {
       console.error("Error fetching order details:", error);
-      setError("Failed to load order details. Please try again.");
+      setError("Không thể tải thông tin đơn hàng. Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
@@ -130,13 +130,13 @@ export function DetailLaundryOrderModal({
   // Get status badge class
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
-      case "Completed":
+      case "Hoàn Thành":
         return "bg-green-100 text-green-800";
-      case "Processing":
+      case "Đang Xử Lý":
         return "bg-blue-100 text-blue-800";
-      case "Delivered":
+      case "Đã Giao":
         return "bg-purple-100 text-purple-800";
-      case "Cancelled":
+      case "Đã Hủy":
         return "bg-red-100 text-red-800";
       default:
         return "bg-yellow-100 text-yellow-800";
@@ -147,16 +147,16 @@ export function DetailLaundryOrderModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Laundry Order Details</DialogTitle>
+          <DialogTitle>Chi Tiết Đơn Hàng Giặt Ủi</DialogTitle>
           <DialogDescription>
-            View detailed information about this laundry order.
+            Xem thông tin chi tiết về đơn hàng giặt ủi này.
           </DialogDescription>
         </DialogHeader>
 
         {loading ? (
           <div className="flex justify-center items-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <span className="ml-2">Loading order details...</span>
+            <span className="ml-2">Đang tải thông tin đơn hàng...</span>
           </div>
         ) : error ? (
           <div className="text-center py-8 text-destructive">{error}</div>
@@ -165,15 +165,15 @@ export function DetailLaundryOrderModal({
             {/* Order Information */}
             <div className="space-y-4">
               <h3 className="font-medium text-lg border-b pb-2">
-                Order Information
+                Thông Tin Đơn Hàng
               </h3>
               <div className="grid grid-cols-2 gap-x-4 gap-y-3">
                 <div>
-                  <p className="text-sm text-muted-foreground">Order ID</p>
+                  <p className="text-sm text-muted-foreground">Mã Đơn Hàng</p>
                   <p className="font-medium">{order._id}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Status</p>
+                  <p className="text-sm text-muted-foreground">Trạng Thái</p>
                   <p
                     className={`px-2 py-1 rounded-full text-xs inline-flex items-center w-fit ${getStatusBadgeClass(
                       order.status
@@ -183,31 +183,31 @@ export function DetailLaundryOrderModal({
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Store</p>
+                  <p className="text-sm text-muted-foreground">Cửa Hàng</p>
                   <p className="font-medium">{getStoreName(order.id_store)}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Customer</p>
+                  <p className="text-sm text-muted-foreground">Khách Hàng</p>
                   <p className="font-medium">
                     {getCustomerName(order.id_customer)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Staff</p>
+                  <p className="text-sm text-muted-foreground">Nhân Viên</p>
                   <p className="font-medium">{getStaffName(order.id_staff)}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Created Date</p>
+                  <p className="text-sm text-muted-foreground">Ngày Tạo</p>
                   <p className="font-medium">{formatDate(order.createdAt)}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Received Date</p>
+                  <p className="text-sm text-muted-foreground">Ngày Nhận</p>
                   <p className="font-medium">
                     {formatDate(order.receivedDate)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Return Date</p>
+                  <p className="text-sm text-muted-foreground">Ngày Trả</p>
                   <p className="font-medium">
                     {formatDate(order.returnedDate)}
                   </p>
@@ -216,7 +216,7 @@ export function DetailLaundryOrderModal({
                 {order.pickupAddress && (
                   <div className="col-span-2">
                     <p className="text-sm text-muted-foreground">
-                      Pickup Address
+                      Địa Chỉ Lấy Hàng
                     </p>
                     <p className="font-medium">{order.pickupAddress}</p>
                   </div>
@@ -225,7 +225,7 @@ export function DetailLaundryOrderModal({
                 {order.deliveryAddress && (
                   <div className="col-span-2">
                     <p className="text-sm text-muted-foreground">
-                      Delivery Address
+                      Địa Chỉ Giao Hàng
                     </p>
                     <p className="font-medium">{order.deliveryAddress}</p>
                   </div>
@@ -236,21 +236,21 @@ export function DetailLaundryOrderModal({
             {/* Order Details */}
             <div className="space-y-4">
               <h3 className="font-medium text-lg border-b pb-2">
-                Order Details
+                Chi Tiết Đơn Hàng
               </h3>
               {order.orderDetails.length === 0 ? (
                 <p className="text-muted-foreground text-center py-4">
-                  No order details available
+                  Không có thông tin chi tiết đơn hàng
                 </p>
               ) : (
                 <div className="border rounded-md overflow-hidden">
                   <div className="grid grid-cols-12 gap-2 p-3 bg-muted text-sm font-medium">
-                    <div className="col-span-3">Service</div>
-                    <div className="col-span-3">Goods</div>
-                    <div className="col-span-1">Qty</div>
-                    <div className="col-span-2">Price</div>
-                    <div className="col-span-2">Subtotal</div>
-                    <div className="col-span-1">Notes</div>
+                    <div className="col-span-3">Dịch Vụ</div>
+                    <div className="col-span-3">Hàng Hóa</div>
+                    <div className="col-span-1">SL</div>
+                    <div className="col-span-2">Giá</div>
+                    <div className="col-span-2">Tổng</div>
+                    <div className="col-span-1">Ghi Chú</div>
                   </div>
                   <div className="divide-y">
                     {order.orderDetails.map((detail, index) => (
@@ -295,11 +295,11 @@ export function DetailLaundryOrderModal({
             {/* Payment Information */}
             <div className="space-y-4">
               <h3 className="font-medium text-lg border-b pb-2">
-                Payment Information
+                Thông Tin Thanh Toán
               </h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Total Amount</p>
+                  <p className="text-sm text-muted-foreground">Tổng Tiền</p>
                   <p className="font-medium text-lg">
                     {formatCurrency(order.totalAmount)}
                   </p>
@@ -307,7 +307,7 @@ export function DetailLaundryOrderModal({
                 {order.discountAmount && order.discountAmount > 0 && (
                   <div>
                     <p className="text-sm text-muted-foreground">
-                      Discount Amount
+                      Tiền Giảm Giá
                     </p>
                     <p className="font-medium text-lg">
                       {formatCurrency(order.discountAmount)}
@@ -315,13 +315,13 @@ export function DetailLaundryOrderModal({
                   </div>
                 )}
                 <div>
-                  <p className="text-sm text-muted-foreground">Amount Paid</p>
+                  <p className="text-sm text-muted-foreground">Đã Thanh Toán</p>
                   <p className="font-medium text-lg">
                     {formatCurrency(order.amountPaid)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Balance</p>
+                  <p className="text-sm text-muted-foreground">Còn Lại</p>
                   <p className="font-medium text-lg">
                     {formatCurrency(order.totalAmount - order.amountPaid)}
                   </p>
@@ -331,12 +331,12 @@ export function DetailLaundryOrderModal({
           </div>
         ) : (
           <p className="text-center py-8 text-muted-foreground">
-            No order information available
+            Không có thông tin đơn hàng
           </p>
         )}
 
         <DialogFooter>
-          <Button onClick={onClose}>Close</Button>
+          <Button onClick={onClose}>Đóng</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -68,8 +68,8 @@ export function UpdatePromotionModal({
         });
         setFetchLoading(false);
       } catch (error) {
-        console.error("Error fetching promotion:", error);
-        setError("Failed to load promotion data. Please try again.");
+        console.error("Lỗi khi tải khuyến mãi:", error);
+        setError("Không thể tải dữ liệu khuyến mãi. Vui lòng thử lại.");
         setFetchLoading(false);
       }
     };
@@ -87,9 +87,9 @@ export function UpdatePromotionModal({
     if (name === "value") {
       const valueNum = parseFloat(value);
       if (isNaN(valueNum) || valueNum <= 0) {
-        setValueError("Value must be a positive number");
+        setValueError("Giá trị phải là số dương");
       } else if (formData.type === "Percentage" && valueNum > 100) {
-        setValueError("Percentage cannot be greater than 100%");
+        setValueError("Phần trăm không thể lớn hơn 100%");
       } else {
         setValueError("");
       }
@@ -100,7 +100,7 @@ export function UpdatePromotionModal({
     } else if (name === "type") {
       // Reset value error when type changes
       if (value === "Percentage" && formData.value && formData.value > 100) {
-        setValueError("Percentage cannot be greater than 100%");
+        setValueError("Phần trăm không thể lớn hơn 100%");
       } else {
         setValueError("");
       }
@@ -122,13 +122,13 @@ export function UpdatePromotionModal({
       // Validate dates
       if (name === "endDate" && formData.startDate && value) {
         if (new Date(value) <= new Date(formData.startDate)) {
-          setDateError("End date must be after start date");
+          setDateError("Ngày kết thúc phải sau ngày bắt đầu");
         } else {
           setDateError("");
         }
       } else if (name === "startDate" && formData.endDate && value) {
         if (new Date(formData.endDate) <= new Date(value)) {
-          setDateError("End date must be after start date");
+          setDateError("Ngày kết thúc phải sau ngày bắt đầu");
         } else {
           setDateError("");
         }
@@ -149,7 +149,7 @@ export function UpdatePromotionModal({
     if (dateError) return;
 
     if (!promotionId) {
-      setError("Promotion ID is missing");
+      setError("Thiếu mã khuyến mãi");
       return;
     }
 
@@ -158,14 +158,14 @@ export function UpdatePromotionModal({
 
     try {
       await updatePromotion(promotionId, formData);
-      toast.success("Promotion updated successfully");
+      toast.success("Cập nhật khuyến mãi thành công");
       setLoading(false);
       onSuccess();
       onClose();
     } catch (error) {
-      console.error("Error updating promotion:", error);
-      setError("Failed to update promotion. Please try again.");
-      toast.error("Failed to update promotion");
+      console.error("Lỗi khi cập nhật khuyến mãi:", error);
+      setError("Không thể cập nhật khuyến mãi. Vui lòng thử lại.");
+      toast.error("Cập nhật khuyến mãi thất bại");
       setLoading(false);
     }
   };
@@ -174,20 +174,19 @@ export function UpdatePromotionModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         {fetchLoading ? (
-          <div className="py-6 text-center">Loading promotion data...</div>
+          <div className="py-6 text-center">Đang tải dữ liệu khuyến mãi...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             <DialogHeader>
-              <DialogTitle>Update Promotion</DialogTitle>
+              <DialogTitle>Cập Nhật Khuyến Mãi</DialogTitle>
               <DialogDescription>
-                Update the details for this promotion. Click save when you're
-                done.
+                Cập nhật thông tin cho khuyến mãi này. Nhấn lưu khi hoàn tất.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
-                  Name
+                  Tên
                 </Label>
                 <Input
                   id="name"
@@ -201,7 +200,7 @@ export function UpdatePromotionModal({
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="description" className="text-right">
-                  Description
+                  Mô Tả
                 </Label>
                 <Textarea
                   id="description"
@@ -216,7 +215,7 @@ export function UpdatePromotionModal({
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="type" className="text-right">
-                  Type
+                  Loại
                 </Label>
                 <select
                   id="type"
@@ -226,14 +225,14 @@ export function UpdatePromotionModal({
                   className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   required
                 >
-                  <option value="Percentage">Percentage</option>
-                  <option value="Cash">Cash</option>
+                  <option value="Percentage">Phần Trăm</option>
+                  <option value="Cash">Tiền Mặt</option>
                 </select>
               </div>
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="value" className="text-right">
-                  Value
+                  Giá Trị
                 </Label>
                 <div className="col-span-3 space-y-1">
                   <Input
@@ -256,7 +255,7 @@ export function UpdatePromotionModal({
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="startDate" className="text-right">
-                  Start Date
+                  Ngày Bắt Đầu
                 </Label>
                 <Input
                   id="startDate"
@@ -271,7 +270,7 @@ export function UpdatePromotionModal({
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="endDate" className="text-right">
-                  End Date
+                  Ngày Kết Thúc
                 </Label>
                 <div className="col-span-3 space-y-1">
                   <Input
@@ -291,7 +290,7 @@ export function UpdatePromotionModal({
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="status" className="text-right">
-                  Status
+                  Trạng Thái
                 </Label>
                 <select
                   id="status"
@@ -300,8 +299,8 @@ export function UpdatePromotionModal({
                   onChange={handleChange}
                   className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  <option value="true">Active</option>
-                  <option value="false">Inactive</option>
+                  <option value="true">Hoạt Động</option>
+                  <option value="false">Không Hoạt Động</option>
                 </select>
               </div>
             </div>
@@ -310,13 +309,13 @@ export function UpdatePromotionModal({
 
             <DialogFooter>
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                Hủy
               </Button>
               <Button
                 type="submit"
                 disabled={loading || !!valueError || !!dateError}
               >
-                {loading ? "Saving..." : "Save changes"}
+                {loading ? "Đang Lưu..." : "Lưu Thay Đổi"}
               </Button>
             </DialogFooter>
           </form>

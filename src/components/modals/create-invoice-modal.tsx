@@ -234,7 +234,7 @@ export function CreateInvoiceModal({
       <DialogContent className="sm:max-w-[500px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Create New Invoice</DialogTitle>
+            <DialogTitle>Tạo hoá đơn</DialogTitle>
             <DialogDescription>
               Create a new invoice for a completed laundry order. Fill in the
               details below.
@@ -243,7 +243,7 @@ export function CreateInvoiceModal({
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_laundry_order" className="text-right">
-                Laundry Order
+                Đơn hàng giặt
               </Label>
               <select
                 id="id_laundry_order"
@@ -253,7 +253,7 @@ export function CreateInvoiceModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 required
               >
-                <option value="">Select a laundry order</option>
+                <option value="">Chọn đơn hàng giặt</option>
                 {laundryOrders.map((order) => (
                   <option key={order._id} value={order._id}>
                     id customer - {order.id_customer} -{" "}
@@ -265,7 +265,7 @@ export function CreateInvoiceModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_store" className="text-right">
-                Store
+                Cửa hàng
               </Label>
               <select
                 id="id_store"
@@ -275,7 +275,7 @@ export function CreateInvoiceModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 required
               >
-                <option value="">Select a store</option>
+                <option value="">Chọn cửa hàng</option>
                 {stores.map((store) => (
                   <option key={store._id} value={store._id}>
                     {store.name}
@@ -286,7 +286,7 @@ export function CreateInvoiceModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="date" className="text-right">
-                Invoice Date
+                Ngày lập hóa đơn
               </Label>
               <Input
                 id="date"
@@ -301,7 +301,7 @@ export function CreateInvoiceModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="total_price" className="text-right">
-                Total Price
+                Tổng tiền
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -332,7 +332,7 @@ export function CreateInvoiceModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="discount_price" className="text-right">
-                Discount
+                Giảm giá
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -360,7 +360,7 @@ export function CreateInvoiceModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="shipping_fee" className="text-right">
-                Shipping Fee
+                Phí vận chuyển
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -388,7 +388,7 @@ export function CreateInvoiceModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="actual_price" className="text-right">
-                Actual Price
+                Giá thực tế
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -406,7 +406,7 @@ export function CreateInvoiceModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="status" className="text-right">
-                Status
+                Trạng thái
               </Label>
               <select
                 id="status"
@@ -425,7 +425,7 @@ export function CreateInvoiceModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="note" className="text-right">
-                Note
+                Ghi chú
               </Label>
               <Textarea
                 id="note"
@@ -442,7 +442,7 @@ export function CreateInvoiceModal({
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Huỷ
             </Button>
             <Button
               type="submit"

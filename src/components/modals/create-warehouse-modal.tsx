@@ -103,17 +103,17 @@ export function CreateWarehouseModal({
 
     // Validate required fields
     if (!formData.id_store) {
-      setError("Store is required");
+      setError("Cửa hàng là bắt buộc");
       return;
     }
 
     if (!formData.id_goods) {
-      setError("Goods item is required");
+      setError("Hàng hóa là bắt buộc");
       return;
     }
 
     if (formData.quantity < 0) {
-      setError("Quantity cannot be negative");
+      setError("Số lượng không thể âm");
       return;
     }
 
@@ -126,10 +126,10 @@ export function CreateWarehouseModal({
       resetForm();
       onSuccess();
       onClose();
-      toast.success("Warehouse record created successfully!");
+      toast.success("Kho hàng đã được tạo thành công!");
     } catch (error) {
       console.error("Error creating warehouse record:", error);
-      setError("Failed to create warehouse record. Please try again.");
+      setError("Không thể tạo kho hàng. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -146,23 +146,22 @@ export function CreateWarehouseModal({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Warehouse Record</DialogTitle>
+            <DialogTitle>Thêm Kho Hàng Mới</DialogTitle>
             <DialogDescription>
-              Create a new warehouse inventory record. Fields marked with * are
-              required.
+              Tạo bản ghi kho hàng mới. Các trường có dấu * là bắt buộc.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_store" className="text-right">
-                Store *
+                Cửa Hàng *
               </Label>
               <Select
                 value={formData.id_store}
                 onValueChange={(value) => handleSelectChange("id_store", value)}
               >
                 <SelectTrigger className="col-span-3 w-full">
-                  <SelectValue placeholder="Select a store" />
+                  <SelectValue placeholder="Chọn cửa hàng" />
                 </SelectTrigger>
                 <SelectContent>
                   {stores.map((store) => (
@@ -175,14 +174,14 @@ export function CreateWarehouseModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_goods" className="text-right">
-                Goods *
+                Hàng Hóa *
               </Label>
               <Select
                 value={formData.id_goods}
                 onValueChange={(value) => handleSelectChange("id_goods", value)}
               >
                 <SelectTrigger className="col-span-3 w-full">
-                  <SelectValue placeholder="Select a goods item" />
+                  <SelectValue placeholder="Chọn mặt hàng" />
                 </SelectTrigger>
                 <SelectContent>
                   {goods.map((item) => (
@@ -195,7 +194,7 @@ export function CreateWarehouseModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="quantity" className="text-right">
-                Quantity *
+                Số Lượng *
               </Label>
               <Input
                 id="quantity"
@@ -211,7 +210,7 @@ export function CreateWarehouseModal({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="status" className="text-right">
-                Status
+                Trạng Thái
               </Label>
               <div className="flex items-center space-x-2 col-span-3">
                 <Switch
@@ -220,7 +219,7 @@ export function CreateWarehouseModal({
                   onCheckedChange={handleSwitchChange}
                 />
                 <Label htmlFor="status" className="cursor-pointer">
-                  {formData.status ? "Active" : "Inactive"}
+                  {formData.status ? "Hoạt Động" : "Không Hoạt Động"}
                 </Label>
               </div>
             </div>
@@ -233,16 +232,16 @@ export function CreateWarehouseModal({
               formData.id_goods
             ) && (
               <p className="text-sm text-amber-500 mb-4">
-                Warning: This store already has this goods item in the
-                warehouse. Creating this will add a duplicate record.
+                Cảnh báo: Cửa hàng này đã có mặt hàng này trong kho. Việc tạo
+                mới sẽ dẫn đến bản ghi trùng lặp.
               </p>
             )}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Hủy
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? "Creating..." : "Create"}
+              {loading ? "Đang Tạo..." : "Tạo"}
             </Button>
           </DialogFooter>
         </form>

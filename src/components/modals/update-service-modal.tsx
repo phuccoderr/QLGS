@@ -57,8 +57,8 @@ export function UpdateServiceModal({
         });
         setFetchLoading(false);
       } catch (error) {
-        console.error("Error fetching service:", error);
-        setError("Failed to load service data. Please try again.");
+        console.error("Lỗi khi tải dịch vụ:", error);
+        setError("Không thể tải dữ liệu dịch vụ. Vui lòng thử lại.");
         setFetchLoading(false);
       }
     };
@@ -75,7 +75,7 @@ export function UpdateServiceModal({
     if (name === "price") {
       const priceValue = parseFloat(value);
       if (isNaN(priceValue) || priceValue <= 0) {
-        setPriceError("Price must be a positive number");
+        setPriceError("Giá tiền phải là số dương");
       } else {
         setPriceError("");
       }
@@ -98,7 +98,7 @@ export function UpdateServiceModal({
     if (priceError) return;
 
     if (!serviceId) {
-      setError("Service ID is missing");
+      setError("Thiếu mã dịch vụ");
       return;
     }
 
@@ -110,10 +110,10 @@ export function UpdateServiceModal({
       setLoading(false);
       onSuccess();
       onClose();
-      toast.success("Service updated successfully");
+      toast.success("Cập nhật dịch vụ thành công");
     } catch (error) {
-      console.error("Error updating service:", error);
-      setError("Failed to update service. Please try again.");
+      console.error("Lỗi khi cập nhật dịch vụ:", error);
+      setError("Không thể cập nhật dịch vụ. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -122,20 +122,19 @@ export function UpdateServiceModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         {fetchLoading ? (
-          <div className="py-6 text-center">Loading service data...</div>
+          <div className="py-6 text-center">Đang tải dữ liệu dịch vụ...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             <DialogHeader>
-              <DialogTitle>Update Service</DialogTitle>
+              <DialogTitle>Cập Nhật Dịch Vụ</DialogTitle>
               <DialogDescription>
-                Update the details for this service. Click save when you're
-                done.
+                Cập nhật thông tin cho dịch vụ này. Nhấn lưu khi hoàn tất.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
-                  Name
+                  Tên
                 </Label>
                 <Input
                   id="name"
@@ -148,7 +147,7 @@ export function UpdateServiceModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="price" className="text-right">
-                  Price
+                  Giá Tiền
                 </Label>
                 <div className="col-span-3 space-y-1">
                   <Input
@@ -169,7 +168,7 @@ export function UpdateServiceModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="description" className="text-right">
-                  Description
+                  Mô Tả
                 </Label>
                 <Textarea
                   id="description"
@@ -185,10 +184,10 @@ export function UpdateServiceModal({
             {error && <p className="text-sm text-destructive mb-4">{error}</p>}
             <DialogFooter>
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                Hủy
               </Button>
               <Button type="submit" disabled={loading || !!priceError}>
-                {loading ? "Saving..." : "Save changes"}
+                {loading ? "Đang Lưu..." : "Lưu Thay Đổi"}
               </Button>
             </DialogFooter>
           </form>

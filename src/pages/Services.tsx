@@ -40,7 +40,7 @@ export default function Services() {
       setServices(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching services:", error);
+      console.error("Lỗi khi tải dữ liệu dịch vụ:", error);
       setLoading(false);
     }
   };
@@ -88,7 +88,7 @@ export default function Services() {
       setIsDeleteDialogOpen(false);
       setSelectedServiceId(null);
     } catch (error) {
-      console.error("Error deleting service:", error);
+      console.error("Lỗi khi xóa dịch vụ:", error);
     }
     setDeleteLoading(false);
   };
@@ -97,23 +97,23 @@ export default function Services() {
   const columns: ColumnDef<ServiceResponse>[] = [
     {
       accessorKey: "name",
-      header: "Service Name",
+      header: "Tên Dịch Vụ",
     },
     {
       accessorKey: "price",
-      header: "Price",
+      header: "Giá",
       cell: ({ row }) => {
         const price = parseFloat(row.getValue("price"));
-        const formatted = new Intl.NumberFormat("en-US", {
+        const formatted = new Intl.NumberFormat("vi-VN", {
           style: "currency",
-          currency: "USD",
+          currency: "VND",
         }).format(price);
         return formatted;
       },
     },
     {
       accessorKey: "description",
-      header: "Description",
+      header: "Mô Tả",
       cell: ({ row }) => {
         const description = row.getValue("description") as string;
         // Truncate long descriptions
@@ -124,13 +124,18 @@ export default function Services() {
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "Thao Tác",
       cell: ({ row }) => {
         const service = row.original;
 
         return (
           <div className="flex space-x-2">
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              title="Xem chi tiết"
+            >
               <Eye className="h-4 w-4" />
             </Button>
             <Button
@@ -138,6 +143,7 @@ export default function Services() {
               size="icon"
               className="h-8 w-8"
               onClick={() => handleEditService(service._id)}
+              title="Chỉnh sửa"
             >
               <Edit className="h-4 w-4" />
             </Button>
@@ -146,6 +152,7 @@ export default function Services() {
               size="icon"
               className="h-8 w-8 text-destructive"
               onClick={() => handleDeleteService(service._id)}
+              title="Xóa"
             >
               <Trash className="h-4 w-4" />
             </Button>
@@ -158,16 +165,16 @@ export default function Services() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Services</h1>
+        <h1 className="text-2xl font-bold">Dịch Vụ</h1>
         <Button onClick={handleAddService} className="flex items-center gap-1">
           <PlusCircle size={16} />
-          <span>Add Service</span>
+          <span>Thêm Dịch Vụ</span>
         </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <p>Loading services...</p>
+          <p>Đang tải dữ liệu dịch vụ...</p>
         </div>
       ) : (
         <div>
@@ -175,11 +182,11 @@ export default function Services() {
             columns={columns}
             data={services || []}
             searchColumn="name"
-            searchPlaceholder="Search by service name..."
+            searchPlaceholder="Tìm kiếm theo tên dịch vụ..."
           />
           {services.length === 0 && (
             <div className="text-center py-4 text-muted-foreground">
-              No services found
+              Không tìm thấy dịch vụ
             </div>
           )}
         </div>
@@ -204,10 +211,10 @@ export default function Services() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              service and all associated data.
+              Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn dịch
+              vụ và tất cả dữ liệu liên quan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -217,14 +224,14 @@ export default function Services() {
                 setSelectedServiceId(null);
               }}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteLoading ? "Deleting..." : "Delete"}
+              {deleteLoading ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

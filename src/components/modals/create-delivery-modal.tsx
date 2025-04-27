@@ -108,33 +108,33 @@ export function CreateDeliveryModal({
 
     // Validate required fields
     if (!formData.id_laundry_order) {
-      setError("Laundry order is required");
+      setError("Đơn hàng giặt là bắt buộc");
       return;
     }
 
     if (!formData.id_delivery_staff) {
-      setError("Delivery staff is required");
+      setError("Nhân viên giao hàng là bắt buộc");
       return;
     }
 
     if (!formData.id_store) {
-      setError("Store is required");
+      setError("Cửa hàng là bắt buộc");
       return;
     }
 
     if (!formData.delivery_address?.trim()) {
-      setError("Delivery address is required");
+      setError("Địa chỉ giao hàng là bắt buộc");
       return;
     }
 
     if (!formData.phone_number?.trim()) {
-      setError("Phone number is required");
+      setError("Số điện thoại là bắt buộc");
       return;
     }
 
     // Basic email validation
     if (formData.email && !isValidEmail(formData.email)) {
-      setError("Please enter a valid email address");
+      setError("Vui lòng nhập địa chỉ email hợp lệ");
       return;
     }
 
@@ -147,10 +147,10 @@ export function CreateDeliveryModal({
       resetForm();
       onSuccess();
       onClose();
-      toast.success("Delivery record created successfully!");
+      toast.success("Tạo đơn giao hàng thành công!");
     } catch (error) {
-      console.error("Error creating delivery:", error);
-      setError("Failed to create delivery record. Please try again.");
+      console.error("Lỗi khi tạo đơn giao hàng:", error);
+      setError("Không thể tạo đơn giao hàng. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -168,15 +168,15 @@ export function CreateDeliveryModal({
       <DialogContent className="sm:max-w-[500px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Create New Delivery</DialogTitle>
+            <DialogTitle>Thêm giao hàng</DialogTitle>
             <DialogDescription>
-              Create a new delivery record for a completed laundry order.
+              Tạo đơn giao hàng mới cho đơn hàng giặt đã hoàn thành.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_laundry_order" className="text-right">
-                Laundry Order
+                Đơn hàng giặt
               </Label>
               <select
                 id="id_laundry_order"
@@ -186,7 +186,7 @@ export function CreateDeliveryModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 required
               >
-                <option value="">Select a laundry order</option>
+                <option value="">Chọn đơn hàng giặt</option>
                 {laundryOrders.map((order) => (
                   <option key={order._id} value={order._id}>
                     #{order._id}
@@ -197,7 +197,7 @@ export function CreateDeliveryModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_store" className="text-right">
-                Store
+                Cửa hàng
               </Label>
               <select
                 id="id_store"
@@ -207,7 +207,7 @@ export function CreateDeliveryModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 required
               >
-                <option value="">Select a store</option>
+                <option value="">Chọn cửa hàng</option>
                 {stores.map((store) => (
                   <option key={store._id} value={store._id}>
                     {store.name}
@@ -218,7 +218,7 @@ export function CreateDeliveryModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_delivery_staff" className="text-right">
-                Delivery Staff
+                Nhân viên giao hàng
               </Label>
               <select
                 id="id_delivery_staff"
@@ -228,7 +228,7 @@ export function CreateDeliveryModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 required
               >
-                <option value="">Select delivery staff</option>
+                <option value="">Chọn nhân viên giao hàng</option>
                 {deliveryStaff.map((s) => (
                   <option key={s._id} value={s._id}>
                     {s.name}
@@ -239,7 +239,7 @@ export function CreateDeliveryModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="delivery_address" className="text-right">
-                Delivery Address
+                Địa chỉ giao hàng
               </Label>
               <Input
                 id="delivery_address"
@@ -253,7 +253,7 @@ export function CreateDeliveryModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="phone_number" className="text-right">
-                Phone Number
+                Số điện thoại
               </Label>
               <Input
                 id="phone_number"
@@ -276,13 +276,13 @@ export function CreateDeliveryModal({
                 value={formData.email || ""}
                 onChange={handleChange}
                 className="col-span-3"
-                placeholder="Optional"
+                placeholder="Tùy chọn"
               />
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="status" className="text-right">
-                Status
+                Trạng thái
               </Label>
               <select
                 id="status"
@@ -292,9 +292,9 @@ export function CreateDeliveryModal({
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 required
               >
-                <option value="Pending">Pending</option>
-                <option value="In Delivery">In Delivery</option>
-                <option value="Delivered">Delivered</option>
+                <option value="Pending">Đang xử lý</option>
+                <option value="In Delivery">Đang giao</option>
+                <option value="Delivered">Đã giao</option>
               </select>
             </div>
           </div>
@@ -303,10 +303,10 @@ export function CreateDeliveryModal({
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Huỷ
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? "Creating..." : "Create Delivery"}
+              {loading ? "Đang tạo..." : "Tạo đơn giao hàng"}
             </Button>
           </DialogFooter>
         </form>

@@ -202,7 +202,7 @@ export function CreateLaundryOrderModal({
     if (name === "quantity") {
       const quantityValue = parseInt(value);
       if (isNaN(quantityValue) || quantityValue <= 0) {
-        setQuantityError("Quantity must be a positive number");
+        setQuantityError("Số lượng phải là số dương");
       } else {
         setQuantityError("");
       }
@@ -213,7 +213,7 @@ export function CreateLaundryOrderModal({
     } else if (name === "price") {
       const priceValue = parseFloat(value);
       if (isNaN(priceValue) || priceValue <= 0) {
-        setPriceError("Price must be a positive number");
+        setPriceError("Đơn giá phải là số dương");
       } else {
         setPriceError("");
       }
@@ -244,7 +244,7 @@ export function CreateLaundryOrderModal({
   const handleAddOrderDetail = () => {
     // Validate order detail
     if (!orderDetail.id_service) {
-      setError("Service is required for order detail");
+      setError("Dịch vụ là bắt buộc cho chi tiết đơn hàng");
       return;
     }
 
@@ -281,32 +281,32 @@ export function CreateLaundryOrderModal({
 
     // Validate form
     if (!formData.id_store) {
-      setError("Store is required");
+      setError("Cửa hàng là bắt buộc");
       return;
     }
 
     if (!formData.id_customer) {
-      setError("Customer is required");
+      setError("Khách hàng là bắt buộc");
       return;
     }
 
     if (!formData.id_staff) {
-      setError("Staff is required");
+      setError("Nhân viên là bắt buộc");
       return;
     }
 
     if (!formData.receivedDate) {
-      setError("Received date is required");
+      setError("Ngày nhận là bắt buộc");
       return;
     }
 
     if (formData.orderDetails.length === 0) {
-      setError("At least one service is required");
+      setError("Ít nhất một dịch vụ là bắt buộc");
       return;
     }
 
     if (formData.amountPaid <= 0) {
-      setError("Amount paid must be greater than zero");
+      setError("Số tiền đã thanh toán phải lớn hơn 0");
       return;
     }
 
@@ -334,10 +334,10 @@ export function CreateLaundryOrderModal({
         promotionId: undefined,
         orderDetails: [],
       });
-      toast.success("Laundry order created successfully!");
+      toast.success("Đơn giặt ủi đã được tạo thành công!");
     } catch (error) {
       console.error("Error creating laundry order:", error);
-      setError("Failed to create laundry order. Please try again.");
+      setError("Không thể tạo đơn giặt ủi. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -355,18 +355,17 @@ export function CreateLaundryOrderModal({
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Laundry Order</DialogTitle>
+            <DialogTitle>Thêm Đơn Giặt Ủi Mới</DialogTitle>
             <DialogDescription>
-              Enter the details for the new laundry order. Click save when
-              you're done.
+              Nhập thông tin cho đơn giặt ủi mới. Nhấn lưu khi hoàn tất.
             </DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-6 py-4">
-            <h3 className="font-medium">Order Information</h3>
+            <h3 className="font-medium">Thông Tin Đơn Hàng</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="id_store">Store</Label>
+                <Label htmlFor="id_store">Cửa Hàng</Label>
                 <select
                   id="id_store"
                   name="id_store"
@@ -375,7 +374,7 @@ export function CreateLaundryOrderModal({
                   className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   required
                 >
-                  <option value="">Select a store</option>
+                  <option value="">Chọn cửa hàng</option>
                   {stores.map((store) => (
                     <option key={store._id} value={store._id}>
                       {store.name}
@@ -385,7 +384,7 @@ export function CreateLaundryOrderModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="id_customer">Customer</Label>
+                <Label htmlFor="id_customer">Khách Hàng</Label>
                 <select
                   id="id_customer"
                   name="id_customer"
@@ -394,7 +393,7 @@ export function CreateLaundryOrderModal({
                   className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   required
                 >
-                  <option value="">Select a customer</option>
+                  <option value="">Chọn khách hàng</option>
                   {customers.map((customer) => (
                     <option key={customer._id} value={customer._id}>
                       {customer.name} - {customer.phoneNumber}
@@ -404,7 +403,7 @@ export function CreateLaundryOrderModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="id_staff">Staff</Label>
+                <Label htmlFor="id_staff">Nhân Viên</Label>
                 <select
                   id="id_staff"
                   name="id_staff"
@@ -413,7 +412,7 @@ export function CreateLaundryOrderModal({
                   className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   required
                 >
-                  <option value="">Select staff</option>
+                  <option value="">Chọn nhân viên</option>
                   {staff.map((s) => (
                     <option key={s._id} value={s._id}>
                       {s.name}
@@ -423,7 +422,7 @@ export function CreateLaundryOrderModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="status">Trạng Thái</Label>
                 <select
                   id="status"
                   name="status"
@@ -432,16 +431,16 @@ export function CreateLaundryOrderModal({
                   className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   required
                 >
-                  <option value="Pending">Pending</option>
-                  <option value="Processing">Processing</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Delivered">Delivered</option>
-                  <option value="Cancelled">Cancelled</option>
+                  <option value="Pending">Chờ Xử Lý</option>
+                  <option value="Processing">Đang Xử Lý</option>
+                  <option value="Completed">Hoàn Thành</option>
+                  <option value="Delivered">Đã Giao</option>
+                  <option value="Cancelled">Đã Hủy</option>
                 </select>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="receivedDate">Received Date</Label>
+                <Label htmlFor="receivedDate">Ngày Nhận</Label>
                 <Input
                   id="receivedDate"
                   name="receivedDate"
@@ -466,7 +465,7 @@ export function CreateLaundryOrderModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="returnedDate">Expected Return Date</Label>
+                <Label htmlFor="returnedDate">Ngày Trả Dự Kiến</Label>
                 <Input
                   id="returnedDate"
                   name="returnedDate"
@@ -490,7 +489,7 @@ export function CreateLaundryOrderModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="promotionId">Promotion</Label>
+                <Label htmlFor="promotionId">Khuyến Mãi</Label>
                 <select
                   id="promotionId"
                   name="promotionId"
@@ -498,7 +497,7 @@ export function CreateLaundryOrderModal({
                   onChange={handleChange}
                   className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
-                  <option value="">No promotion</option>
+                  <option value="">Không áp dụng</option>
                   {promotions.map((promo) => (
                     <option key={promo._id} value={promo._id}>
                       {promo.name} -{" "}
@@ -511,7 +510,9 @@ export function CreateLaundryOrderModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="pickupAddress">Pickup Address (optional)</Label>
+                <Label htmlFor="pickupAddress">
+                  Địa Chỉ Lấy Hàng (tùy chọn)
+                </Label>
                 <Input
                   id="pickupAddress"
                   name="pickupAddress"
@@ -522,7 +523,7 @@ export function CreateLaundryOrderModal({
 
               <div className="space-y-2">
                 <Label htmlFor="deliveryAddress">
-                  Delivery Address (optional)
+                  Địa Chỉ Giao Hàng (tùy chọn)
                 </Label>
                 <Input
                   id="deliveryAddress"
@@ -535,7 +536,7 @@ export function CreateLaundryOrderModal({
 
             <div className="border-t pt-4 mt-2">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="font-medium">Order Details</h3>
+                <h3 className="font-medium">Chi Tiết Đơn Hàng</h3>
                 <Button
                   type="button"
                   variant="outline"
@@ -547,13 +548,13 @@ export function CreateLaundryOrderModal({
                   }
                 >
                   <PlusCircle size={16} />
-                  <span>Add Service</span>
+                  <span>Thêm Dịch Vụ</span>
                 </Button>
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="space-y-2">
-                  <Label htmlFor="id_service">Service</Label>
+                  <Label htmlFor="id_service">Dịch Vụ</Label>
                   <select
                     id="id_service"
                     name="id_service"
@@ -561,7 +562,7 @@ export function CreateLaundryOrderModal({
                     onChange={handleOrderDetailChange}
                     className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   >
-                    <option value="">Select a service</option>
+                    <option value="">Chọn dịch vụ</option>
                     {services.map((service) => (
                       <option key={service._id} value={service._id}>
                         {service.name} ({formatCurrency(service.price)})
@@ -571,7 +572,7 @@ export function CreateLaundryOrderModal({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="id_goods">Goods (optional)</Label>
+                  <Label htmlFor="id_goods">Hàng Hóa (tùy chọn)</Label>
                   <select
                     id="id_goods"
                     name="id_goods"
@@ -579,7 +580,7 @@ export function CreateLaundryOrderModal({
                     onChange={handleOrderDetailChange}
                     className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   >
-                    <option value="">None</option>
+                    <option value="">Không có</option>
                     {goods.map((item) => (
                       <option key={item._id} value={item._id}>
                         {item.name}
@@ -589,7 +590,7 @@ export function CreateLaundryOrderModal({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="quantity">Quantity</Label>
+                  <Label htmlFor="quantity">Số Lượng</Label>
                   <Input
                     id="quantity"
                     name="quantity"
@@ -601,12 +602,14 @@ export function CreateLaundryOrderModal({
                     className={quantityError ? "border-destructive" : ""}
                   />
                   {quantityError && (
-                    <p className="text-xs text-destructive">{quantityError}</p>
+                    <p className="text-xs text-destructive">
+                      Số lượng phải là số dương
+                    </p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="price">Price</Label>
+                  <Label htmlFor="price">Đơn Giá</Label>
                   <Input
                     id="price"
                     name="price"
@@ -618,12 +621,14 @@ export function CreateLaundryOrderModal({
                     className={priceError ? "border-destructive" : ""}
                   />
                   {priceError && (
-                    <p className="text-xs text-destructive">{priceError}</p>
+                    <p className="text-xs text-destructive">
+                      Đơn giá phải là số dương
+                    </p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="subTotal">Subtotal</Label>
+                  <Label htmlFor="subTotal">Thành Tiền</Label>
                   <div>
                     <Input
                       id="subTotal"
@@ -639,7 +644,7 @@ export function CreateLaundryOrderModal({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="note">Notes (optional)</Label>
+                  <Label htmlFor="note">Ghi Chú (tùy chọn)</Label>
                   <Textarea
                     id="note"
                     name="note"
@@ -654,21 +659,21 @@ export function CreateLaundryOrderModal({
               {formData.orderDetails.length > 0 && (
                 <div className="border rounded-md mt-4">
                   <div className="grid grid-cols-12 gap-2 p-2 font-medium bg-muted text-sm">
-                    <div className="col-span-3">Service</div>
-                    <div className="col-span-2">Goods</div>
-                    <div className="col-span-1">Qty</div>
-                    <div className="col-span-2">Price</div>
-                    <div className="col-span-2">Subtotal</div>
-                    <div className="col-span-2">Actions</div>
+                    <div className="col-span-3">Dịch Vụ</div>
+                    <div className="col-span-2">Hàng Hóa</div>
+                    <div className="col-span-1">SL</div>
+                    <div className="col-span-2">Đơn Giá</div>
+                    <div className="col-span-2">Thành Tiền</div>
+                    <div className="col-span-2">Thao Tác</div>
                   </div>
                   <div className="divide-y">
                     {formData.orderDetails.map((detail, index) => {
                       const serviceName =
                         services.find((s) => s._id === detail.id_service)
-                          ?.name || "Unknown";
+                          ?.name || "Không rõ";
                       const goodsName = detail.id_goods
                         ? goods.find((g) => g._id === detail.id_goods)?.name ||
-                          "Unknown"
+                          "Không rõ"
                         : "N/A";
 
                       return (
@@ -715,10 +720,10 @@ export function CreateLaundryOrderModal({
             </div>
 
             <div className="border-t pt-4 mt-2">
-              <h3 className="font-medium mb-4">Payment Information</h3>
+              <h3 className="font-medium mb-4">Thông Tin Thanh Toán</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="totalAmount">Total Amount</Label>
+                  <Label htmlFor="totalAmount">Tổng Tiền</Label>
                   <Input
                     id="totalAmount"
                     name="totalAmount"
@@ -732,7 +737,7 @@ export function CreateLaundryOrderModal({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="discountAmount">Discount Amount</Label>
+                  <Label htmlFor="discountAmount">Giảm Giá</Label>
                   <Input
                     id="discountAmount"
                     name="discountAmount"
@@ -746,7 +751,7 @@ export function CreateLaundryOrderModal({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="amountPaid">Amount Paid</Label>
+                  <Label htmlFor="amountPaid">Số Tiền Đã Thanh Toán</Label>
                   <Input
                     id="amountPaid"
                     name="amountPaid"
@@ -769,7 +774,7 @@ export function CreateLaundryOrderModal({
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Hủy
             </Button>
             <Button
               type="submit"
@@ -781,7 +786,7 @@ export function CreateLaundryOrderModal({
                 !formData.id_staff
               }
             >
-              {loading ? "Creating..." : "Create Order"}
+              {loading ? "Đang Tạo..." : "Tạo Đơn Hàng"}
             </Button>
           </DialogFooter>
         </form>

@@ -58,7 +58,7 @@ export function CreateMembershipCardModal({
       setCustomers(data);
     } catch (error) {
       console.error("Error fetching customers:", error);
-      setError("Failed to load customers. Please try again.");
+      setError("Không thể tải danh sách khách hàng. Vui lòng thử lại.");
     }
     setCustomersLoading(false);
   };
@@ -71,10 +71,10 @@ export function CreateMembershipCardModal({
     // Card number validation
     if (name === "card_number") {
       if (!value) {
-        setCardNumberError("Card number is required");
+        setCardNumberError("Số thẻ là bắt buộc");
       } else if (!/^[A-Z0-9]{8,}$/.test(value)) {
         setCardNumberError(
-          "Card number must be at least 8 alphanumeric characters (uppercase)"
+          "Số thẻ phải có ít nhất 8 ký tự chữ và số (viết hoa)"
         );
       } else {
         setCardNumberError("");
@@ -87,7 +87,7 @@ export function CreateMembershipCardModal({
       const issueDate = formData.issue_date;
 
       if (expiryDate <= issueDate) {
-        setDateError("Expiry date must be after issue date");
+        setDateError("Ngày hết hạn phải sau ngày cấp");
       } else {
         setDateError("");
       }
@@ -98,7 +98,7 @@ export function CreateMembershipCardModal({
       const expiryDate = formData.expiry_date;
 
       if (expiryDate <= issueDate) {
-        setDateError("Expiry date must be after issue date");
+        setDateError("Ngày hết hạn phải sau ngày cấp");
       } else {
         setDateError("");
       }
@@ -124,19 +124,17 @@ export function CreateMembershipCardModal({
     let hasError = false;
 
     if (!formData.id_customer) {
-      setError("Please select a customer");
+      setError("Vui lòng chọn khách hàng");
       hasError = true;
     }
 
     if (!formData.card_number || !/^[A-Z0-9]{8,}$/.test(formData.card_number)) {
-      setCardNumberError(
-        "Card number must be at least 8 alphanumeric characters (uppercase)"
-      );
+      setCardNumberError("Số thẻ phải có ít nhất 8 ký tự chữ và số (viết hoa)");
       hasError = true;
     }
 
     if (formData.expiry_date <= formData.issue_date) {
-      setDateError("Expiry date must be after issue date");
+      setDateError("Ngày hết hạn phải sau ngày cấp");
       hasError = true;
     }
 
@@ -163,10 +161,10 @@ export function CreateMembershipCardModal({
         points: 0,
         status: true,
       });
-      toast.success("Membership card created successfully!");
+      toast.success("Thẻ thành viên đã được tạo thành công!");
     } catch (error) {
       console.error("Error creating membership card:", error);
-      setError("Failed to create membership card. Please try again.");
+      setError("Tạo thẻ thành viên thất bại. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -176,16 +174,15 @@ export function CreateMembershipCardModal({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add New Membership Card</DialogTitle>
+            <DialogTitle>Thêm Thẻ Thành Viên Mới</DialogTitle>
             <DialogDescription>
-              Enter the details for the new membership card. Click save when
-              you're done.
+              Nhập thông tin cho thẻ thành viên mới. Nhấn lưu khi hoàn tất.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="id_customer" className="text-right">
-                Customer
+                Khách Hàng
               </Label>
               <select
                 id="id_customer"
@@ -196,7 +193,7 @@ export function CreateMembershipCardModal({
                 disabled={customersLoading}
                 required
               >
-                <option value="">Select Customer</option>
+                <option value="">Chọn Khách Hàng</option>
                 {customers.map((customer) => (
                   <option key={customer._id} value={customer._id}>
                     {customer.name} ({customer.email})
@@ -207,7 +204,7 @@ export function CreateMembershipCardModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="card_number" className="text-right">
-                Card Number
+                Số Thẻ
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -216,18 +213,22 @@ export function CreateMembershipCardModal({
                   value={formData.card_number}
                   onChange={handleChange}
                   className={cardNumberError ? "border-destructive" : ""}
-                  placeholder="e.g. CARD12345"
+                  placeholder="VD: CARD12345"
                   required
                 />
                 {cardNumberError && (
-                  <p className="text-xs text-destructive">{cardNumberError}</p>
+                  <p className="text-xs text-destructive">
+                    {cardNumberError === "Số thẻ là bắt buộc"
+                      ? "Số thẻ là bắt buộc"
+                      : "Số thẻ phải có ít nhất 8 ký tự chữ và số (viết hoa)"}
+                  </p>
                 )}
               </div>
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="issue_date" className="text-right">
-                Issue Date
+                Ngày Cấp
               </Label>
               <Input
                 id="issue_date"
@@ -242,7 +243,7 @@ export function CreateMembershipCardModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="expiry_date" className="text-right">
-                Expiry Date
+                Ngày Hết Hạn
               </Label>
               <div className="col-span-3 space-y-1">
                 <Input
@@ -255,14 +256,16 @@ export function CreateMembershipCardModal({
                   required
                 />
                 {dateError && (
-                  <p className="text-xs text-destructive">{dateError}</p>
+                  <p className="text-xs text-destructive">
+                    Ngày hết hạn phải sau ngày cấp
+                  </p>
                 )}
               </div>
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="points" className="text-right">
-                Points
+                Điểm Ban Đầu
               </Label>
               <Input
                 id="points"
@@ -278,7 +281,7 @@ export function CreateMembershipCardModal({
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="status" className="text-right">
-                Status
+                Trạng Thái
               </Label>
               <select
                 id="status"
@@ -287,8 +290,8 @@ export function CreateMembershipCardModal({
                 onChange={handleChange}
                 className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
+                <option value="true">Hoạt Động</option>
+                <option value="false">Không Hoạt Động</option>
               </select>
             </div>
           </div>
@@ -297,13 +300,15 @@ export function CreateMembershipCardModal({
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Hủy
             </Button>
             <Button
               type="submit"
-              disabled={loading || !!cardNumberError || !!dateError}
+              disabled={
+                loading || customersLoading || !!cardNumberError || !!dateError
+              }
             >
-              {loading ? "Creating..." : "Create Card"}
+              {loading ? "Đang Tạo..." : "Tạo Thẻ"}
             </Button>
           </DialogFooter>
         </form>

@@ -69,8 +69,8 @@ export function UpdateStoreModal({
       });
       setFetchLoading(false);
     } catch (error) {
-      console.error("Error fetching store data:", error);
-      setError("Failed to load store data. Please try again.");
+      console.error("Lỗi khi tải dữ liệu cửa hàng:", error);
+      setError("Không thể tải dữ liệu cửa hàng. Vui lòng thử lại.");
       setFetchLoading(false);
     }
   };
@@ -82,8 +82,8 @@ export function UpdateStoreModal({
       // No need to filter customers
       setManagers(data);
     } catch (error) {
-      console.error("Error fetching customers:", error);
-      setError("Failed to load customers. Please try again.");
+      console.error("Lỗi khi tải danh sách khách hàng:", error);
+      setError("Không thể tải danh sách khách hàng. Vui lòng thử lại.");
     }
     setManagersLoading(false);
   };
@@ -110,12 +110,12 @@ export function UpdateStoreModal({
 
     // Validate required fields
     if (!formData.name?.trim()) {
-      setError("Name is required");
+      setError("Tên là bắt buộc");
       return;
     }
 
     if (!storeId) {
-      setError("Store ID is missing");
+      setError("Thiếu mã cửa hàng");
       return;
     }
 
@@ -127,10 +127,10 @@ export function UpdateStoreModal({
       setLoading(false);
       onSuccess();
       onClose();
-      toast.success("Store updated successfully!");
+      toast.success("Cập nhật cửa hàng thành công!");
     } catch (error) {
-      console.error("Error updating store:", error);
-      setError("Failed to update store. Please try again.");
+      console.error("Lỗi khi cập nhật cửa hàng:", error);
+      setError("Không thể cập nhật cửa hàng. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -139,19 +139,19 @@ export function UpdateStoreModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         {fetchLoading ? (
-          <div className="py-6 text-center">Loading store data...</div>
+          <div className="py-6 text-center">Đang tải dữ liệu cửa hàng...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             <DialogHeader>
-              <DialogTitle>Update Store</DialogTitle>
+              <DialogTitle>Cập Nhật Cửa Hàng</DialogTitle>
               <DialogDescription>
-                Update the details for this store. Click save when you're done.
+                Cập nhật thông tin cho cửa hàng này. Nhấn lưu khi hoàn tất.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
-                  Name
+                  Tên
                 </Label>
                 <Input
                   id="name"
@@ -164,7 +164,7 @@ export function UpdateStoreModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="phoneNumber" className="text-right">
-                  Phone Number
+                  Số Điện Thoại
                 </Label>
                 <Input
                   id="phoneNumber"
@@ -176,7 +176,7 @@ export function UpdateStoreModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="address" className="text-right">
-                  Address
+                  Địa Chỉ
                 </Label>
                 <Input
                   id="address"
@@ -188,7 +188,7 @@ export function UpdateStoreModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="id_manager" className="text-right">
-                  Customer
+                  Khách Hàng
                 </Label>
                 <select
                   id="id_manager"
@@ -198,7 +198,7 @@ export function UpdateStoreModal({
                   className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={managersLoading}
                 >
-                  <option value="">Select a customer</option>
+                  <option value="">Chọn khách hàng</option>
                   {managers.map((customer) => (
                     <option key={customer._id} value={customer._id}>
                       {customer.name}
@@ -208,7 +208,7 @@ export function UpdateStoreModal({
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="status" className="text-right">
-                  Status
+                  Trạng Thái
                 </Label>
                 <div className="flex items-center space-x-2 col-span-3">
                   <Switch
@@ -217,7 +217,7 @@ export function UpdateStoreModal({
                     onCheckedChange={handleSwitchChange}
                   />
                   <Label htmlFor="status" className="cursor-pointer">
-                    {formData.status ? "Active" : "Inactive"}
+                    {formData.status ? "Hoạt Động" : "Không Hoạt Động"}
                   </Label>
                 </div>
               </div>
@@ -225,10 +225,10 @@ export function UpdateStoreModal({
             {error && <p className="text-sm text-destructive mb-4">{error}</p>}
             <DialogFooter>
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                Hủy
               </Button>
               <Button type="submit" disabled={loading}>
-                {loading ? "Saving..." : "Save changes"}
+                {loading ? "Đang Lưu..." : "Lưu Thay Đổi"}
               </Button>
             </DialogFooter>
           </form>
